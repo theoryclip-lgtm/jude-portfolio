@@ -41,26 +41,37 @@ Your site:
 https://theoryclip-lgtm.github.io/jude-portfolio/
 ```
 
-## Step 3 — Custom domain (later, ~$10/yr)
+## Step 3 — Custom domain: judewebdev.com (~$11/yr)
 
-Buy the domain at [Cloudflare Registrar](https://domains.cloudflare.com) (sells
-at cost) or Namecheap. Then:
+Buy at [Cloudflare Registrar](https://domains.cloudflare.com) — wholesale price,
+no renewal hikes — or Namecheap. Then:
 
-1. Repo **Settings → Pages → Custom domain** → enter the domain → Save.
-2. At the registrar, add these DNS records:
+1. In Cloudflare → **judewebdev.com** → **DNS** → **Add record**, five times:
 
-   | Type | Name | Value |
-   | --- | --- | --- |
-   | A | `@` | `185.199.108.153` |
-   | A | `@` | `185.199.109.153` |
-   | A | `@` | `185.199.110.153` |
-   | A | `@` | `185.199.111.153` |
-   | CNAME | `www` | `theoryclip-lgtm.github.io` |
+   | Type | Name | Content | Proxy |
+   | --- | --- | --- | --- |
+   | A | `@` | `185.199.108.153` | **DNS only** (grey cloud) |
+   | A | `@` | `185.199.109.153` | **DNS only** |
+   | A | `@` | `185.199.110.153` | **DNS only** |
+   | A | `@` | `185.199.111.153` | **DNS only** |
+   | CNAME | `www` | `theoryclip-lgtm.github.io` | **DNS only** |
 
+   The proxy toggle has to be grey, not orange. Cloudflare's proxy sits in front
+   of the origin and intercepts the domain-validation request GitHub makes to
+   issue the TLS certificate, so an orange cloud leaves the site stuck on plain
+   HTTP with nothing obvious to point at.
+
+2. Repo **Settings → Pages → Custom domain** → `judewebdev.com` → Save.
 3. Tick **Enforce HTTPS** once the certificate finishes (up to an hour).
 
-The workflow picks the domain up automatically — `configure-pages` reports the
-live URL and `deploy-build.js` stamps it into the social tags and sitemap.
+Nothing else changes. `configure-pages` reports the new URL to the workflow, and
+`deploy-build.js` stamps it into the canonical tag, the social card URL and the
+sitemap, and writes the `CNAME` file — all on the next push.
+
+One thing that only starts working at this point: `robots.txt` is honoured at a
+domain root and nowhere else, so while the site lives under `/jude-portfolio/`
+its `Disallow` rules are ignored. On `judewebdev.com` they count. The `noindex`
+tags on the demo pages have been carrying that job either way.
 
 ---
 
