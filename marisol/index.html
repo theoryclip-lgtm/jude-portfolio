@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marisol — Coastal Tasting Menu, Newport Beach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#12100D;color:#F0E9DA;font-family:'Jost',system-ui,sans-serif;font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:#C8BEAC;text-decoration:none;transition:color .4s ease}
+a:hover{color:#F0E9DA}
+.serif{font-family:'Cormorant Garamond',Didot,serif}
+.eyebrow{font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:#6E675C}
+header{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:1.6rem clamp(1.2rem,4vw,3rem);background:linear-gradient(to bottom,rgba(12,10,8,.55),transparent)}
+.mark{font-family:'Cormorant Garamond',serif;font-size:.95rem;letter-spacing:.42em;text-indent:.42em;text-transform:uppercase;color:#F0E9DA}
+.hnav{display:flex;gap:2rem;align-items:center}
+.hnav a{font-size:.6rem;letter-spacing:.28em;text-transform:uppercase}
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;text-align:center}
+.hero video,.hero .fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.hero .fallback{background:url('uploads/images/hero.jpg') center/cover no-repeat}
+.hero .scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(12,10,8,.62) 0%,rgba(12,10,8,.18) 42%,rgba(12,10,8,.9) 100%)}
+.hero .inner{position:relative;z-index:2;display:grid;justify-items:center;gap:1.6rem;padding:0 clamp(1.2rem,4vw,3rem)}
+h1.wordmark{font-family:'Cormorant Garamond',Didot,serif;font-weight:300;text-transform:uppercase;font-size:clamp(3rem,14vw,11rem);line-height:.9;letter-spacing:.1em;text-indent:.1em}
+.tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.05rem,2.2vw,1.5rem);color:#C8BEAC;max-width:38ch}
+.rule-link{margin-top:.6rem;font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:#F0E9DA;padding-bottom:.45rem;border-bottom:1px solid rgba(240,233,218,.3)}
+.rule-link:hover{border-color:#F0E9DA}
+.scrollcue{position:absolute;bottom:1.8rem;z-index:2;display:grid;justify-items:center;gap:.7rem}
+.scrollcue span{width:1px;height:46px;background:linear-gradient(to bottom,rgba(240,233,218,.5),transparent)}
+section{padding:clamp(4.5rem,11vw,9rem) clamp(1.2rem,5vw,4rem)}
+.wrap{max-width:1180px;margin:0 auto}
+.two{display:grid;gap:clamp(2rem,5vw,4.5rem);grid-template-columns:1fr}
+@media(min-width:860px){.two{grid-template-columns:1fr 1fr;align-items:center}}
+.shot{width:100%;aspect-ratio:4/3.2;background-size:cover;background-position:center;background-repeat:no-repeat;border-radius:2px}
+h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.9rem,4.4vw,3.2rem);line-height:1.15;margin:.9rem 0 1.4rem}
+p.body{color:#C8BEAC;max-width:56ch;margin-bottom:1rem}
+.course{display:grid;gap:.35rem;padding:1.9rem 0;border-top:1px solid rgba(240,233,218,.11)}
+.course:last-child{border-bottom:1px solid rgba(240,233,218,.11)}
+.course .rom{font-size:.62rem;letter-spacing:.3em;color:#C9A961}
+.course .name{font-family:'Cormorant Garamond',serif;font-size:clamp(1.25rem,2.6vw,1.75rem)}
+.course .ing{font-family:'Cormorant Garamond',serif;font-style:italic;color:#C8BEAC;font-size:1.02rem}
+.course .note{color:#8B8377;font-size:.9rem;max-width:60ch;margin-top:.5rem}
+.course .pour{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:#6E675C;margin-top:.5rem}
+.raw{display:grid;gap:0 clamp(2rem,5vw,4rem);grid-template-columns:1fr}
+@media(min-width:760px){.raw{grid-template-columns:1fr 1fr}}
+.item{display:flex;align-items:baseline;gap:.8rem;padding:1.05rem 0;border-bottom:1px solid rgba(240,233,218,.08)}
+.item .nm{font-family:'Cormorant Garamond',serif;font-size:1.12rem;white-space:nowrap}
+.item .sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:#8B8377;font-size:.92rem}
+.item .dots{flex:1;border-bottom:1px dotted rgba(240,233,218,.22);transform:translateY(-.28rem)}
+.item .pr{font-family:'Cormorant Garamond',serif;color:#C8BEAC}
+.room{display:grid;gap:1rem;grid-template-columns:1fr}
+@media(min-width:860px){.room{grid-template-columns:1.35fr 1fr;grid-auto-rows:minmax(230px,auto)}.room .tall{grid-row:span 2}}
+.room figure{position:relative;overflow:hidden;min-height:230px;background-size:100%;background-position:center;background-repeat:no-repeat;display:flex;align-items:flex-end;border-radius:2px;transition:background-size 1.2s cubic-bezier(.22,.61,.36,1)}
+.room figure:hover{background-size:112%}
+.room figcaption{position:relative;width:100%;padding:1.2rem;font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:#F0E9DA;background:linear-gradient(to top,rgba(12,10,8,.82),transparent)}
+.reserve{text-align:center}
+.hours{display:grid;gap:.5rem;margin:2.2rem 0;color:#C8BEAC;font-size:.95rem}
+footer{padding:2.5rem clamp(1.2rem,5vw,4rem);border-top:1px solid rgba(240,233,218,.09);display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:#6E675C}
+@media(prefers-reduced-motion:reduce){.hero video{display:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+<a href="#top" class="mark">Marisol</a>
+<nav class="hnav">
+<a href="#menu">Menus</a>
+<a href="#raw">Raw Bar</a>
+<a href="#room">The Room</a>
+<a href="#reserve">Reserve</a>
+</nav>
+</header>
+
+<section class="hero" id="top">
+<div class="fallback"></div>
+<video autoplay muted loop playsinline preload="auto" poster="uploads/images/hero.jpg">
+<source src="uploads/hero.mp4" type="video/mp4">
+</video>
+<div class="scrim"></div>
+<div class="inner">
+<h1 class="wordmark">Marisol</h1>
+<p class="tagline">Five courses, decided each morning by whatever the dory fleet drags onto the sand.</p>
+<a href="#menu" class="rule-link">The Menu</a>
+</div>
+<div class="scrollcue">
+<div class="eyebrow">Scroll</div>
+<span></span>
+</div>
+</section>
+
+<section id="kitchen">
+<div class="wrap two">
+<div>
+<div class="eyebrow">The Kitchen</div>
+<h2 class="serif">Four blocks from the boats.</h2>
+<p class="body">The Newport dory fleet has pulled boats onto the beach at the foot of the pier since 1891 — the last of its kind on the West Coast. Our chef walks down at dawn, buys what came up, and drives it four blocks to the kitchen.</p>
+<p class="body">That's the whole sourcing strategy.</p>
+<div class="eyebrow" style="margin-top:1.6rem">Open kitchen · Red oak fire</div>
+</div>
+<div class="shot" style="background-image:url('uploads/images/kitchen.jpg')"></div>
+</div>
+</section>
+
+<section id="menu">
+<div class="wrap">
+<div class="eyebrow">The Tasting</div>
+<h2 class="serif">Five courses, 145 per guest.</h2>
+<div class="course">
+<div class="rom">I</div>
+<div class="name serif">Kanpachi, green almond, sea fig</div>
+<div class="ing">cured ninety minutes, buttermilk, wild fennel pollen</div>
+<div class="note">The only course that never changes shape. Something raw, something green, something from the shore.</div>
+<div class="pour">Txakoli, Getaria</div>
+</div>
+<div class="course">
+<div class="rom">II</div>
+<div class="name serif">Spot prawns, head butter, charred lemon</div>
+<div class="ing">grilled over red oak, brought out whole</div>
+<div class="note">Eaten with hands. We bring cloth, not a fork.</div>
+<div class="pour">Vermentino, Sardegna</div>
+</div>
+<div class="course">
+<div class="rom">III</div>
+<div class="name serif">Sand dab, brown butter, preserved fig leaf</div>
+<div class="ing">bone-in, dressed at the pass</div>
+<div class="note">Whatever the fleet had most of that morning lands here. Halibut and white seabass are the usual understudies.</div>
+<div class="pour">Chablis, 1er Cru</div>
+</div>
+<div class="course">
+<div class="rom">IV</div>
+<div class="name serif">Dry-aged yellowtail collar</div>
+<div class="ing">eleven days, salt-cured, mezcal and burnt orange</div>
+<div class="note">The one course we hold back for the fire. Carved at the table for parties of four or more.</div>
+<div class="pour">Cinsault, Santa Barbara</div>
+</div>
+<div class="course">
+<div class="rom">V</div>
+<div class="name serif">Olive oil cake, tangerine leaf ice</div>
+<div class="ing">citrus from the grove in Capistrano, saba</div>
+<div class="note">Elena's grandmother's recipe, unchanged since 1968 except for the ice.</div>
+<div class="pour">Moscatel, Málaga</div>
+</div>
+</div>
+</section>
+
+<section id="raw">
+<div class="wrap two">
+<div class="shot" style="background-image:url('uploads/images/counter.jpg');aspect-ratio:4/4.4"></div>
+<div>
+<div class="eyebrow">The Counter</div>
+<h2 class="serif">Raw bar, walk-in only.</h2>
+<div class="raw">
+<div class="item"><span class="nm">Kumamoto oysters</span><span class="sub">half dozen</span><span class="dots"></span><span class="pr">28</span></div>
+<div class="item"><span class="nm">Little gems, anchovy, bottarga</span><span class="dots"></span><span class="pr">21</span></div>
+<div class="item"><span class="nm">Santa Barbara uni</span><span class="sub">on toast</span><span class="dots"></span><span class="pr">32</span></div>
+<div class="item"><span class="nm">Grilled octopus, romesco</span><span class="dots"></span><span class="pr">29</span></div>
+<div class="item"><span class="nm">Rock crab, chilled</span><span class="sub">half</span><span class="dots"></span><span class="pr">36</span></div>
+<div class="item"><span class="nm">Salt cod croquetas</span><span class="sub">five</span><span class="dots"></span><span class="pr">17</span></div>
+<div class="item"><span class="nm">Hamachi crudo</span><span class="sub">yuzu kosho</span><span class="dots"></span><span class="pr">26</span></div>
+<div class="item"><span class="nm">Basque cheesecake</span><span class="dots"></span><span class="pr">14</span></div>
+<div class="item"><span class="nm">Smoked mussel escabeche</span><span class="dots"></span><span class="pr">19</span></div>
+</div>
+<div class="eyebrow" style="margin-top:1.8rem">The counter runs on what the dining room didn't use. When it's gone, it's gone.</div>
+</div>
+</div>
+</section>
+
+<section id="room">
+<div class="wrap">
+<div class="eyebrow">The Room</div>
+<h2 class="serif" style="margin-bottom:2.2rem">Forty seats, one seating.</h2>
+<div class="room">
+<figure class="tall" style="background-image:url('uploads/images/room-1.jpg')"><figcaption>The dining room</figcaption></figure>
+<figure style="background-image:url('uploads/images/room-2.jpg')"><figcaption>The bar</figcaption></figure>
+<figure style="background-image:url('uploads/images/room-3.jpg')"><figcaption>The cellar wall</figcaption></figure>
+</div>
+</div>
+</section>
+
+<section id="reserve" class="reserve">
+<div class="wrap">
+<div class="eyebrow">Reservations</div>
+<h2 class="serif">Open thirty days ahead.</h2>
+<div class="hours">
+<div>Tuesday – Thursday · 17:30 – 22:00</div>
+<div>Friday – Saturday · 17:00 – 23:00</div>
+<div>Sunday · 17:00 – 21:00</div>
+<div style="color:#6E675C">Monday closed</div>
+</div>
+<a href="mailto:reserve@marisolnb.com" class="rule-link">reserve@marisolnb.com</a>
+</div>
+</section>
+
+<footer>
+<div>Newport Beach</div>
+<div>@marisol.nb</div>
+<div>© 2026 Marisol</div>
+</footer>
+
+</body>
+</html>

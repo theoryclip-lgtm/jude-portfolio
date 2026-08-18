@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marisol — Coastal Tasting Menu, Newport Beach</title>
+<meta name="description" content="Five courses built each morning from the Newport dory fleet. Dinner Tuesday to Sunday. Reservations open thirty days ahead.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#12100D;
+    --night-2:#1A1713;
+    --cream:#F0E9DA;
+    --cream-dim:#C8BEAC;
+    --gold:#C9A961;
+    --gold-dim:#8E7742;
+    --smoke:#9A9082;
+    --line:rgba(240,233,218,.16);
+    --ease:cubic-bezier(.36,.02,.06,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Jost',system-ui,sans-serif;font-weight:300;
+    background:var(--night);color:var(--cream);
+    -webkit-font-smoothing:antialiased;line-height:1.65;overflow-x:hidden;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:900;pointer-events:none;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  }
+  .disp{font-family:'Cormorant Garamond',Didot,serif;font-weight:300;text-transform:uppercase;line-height:.92}
+  .ital{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300}
+  .util{font-family:'Jost',sans-serif;font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;font-weight:400}
+  a{color:inherit}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 clamp(1.2rem,4vw,3rem)}
+  :focus-visible{outline:1px solid var(--gold);outline-offset:5px}
+
+  /* ---------- PHOTO SLOTS ----------
+     Each slot layers: real photo (if present) → candle bokeh → light falloff → base tone.
+     Drop a jpg into images/ and it covers everything below it. Until then the
+     composition below reads as art-directed atmosphere rather than an empty box. */
+  .ph{background-repeat:no-repeat;background-position:center;background-size:cover;position:relative}
+
+  .ph-hero{
+    background-image:
+      url("images/hero.jpg"),
+      radial-gradient(circle 90px at 74% 26%, rgba(240,186,96,.30), transparent 68%),
+      radial-gradient(circle 42px at 61% 41%, rgba(240,186,96,.34), transparent 66%),
+      radial-gradient(circle 26px at 83% 52%, rgba(240,186,96,.40), transparent 64%),
+      radial-gradient(circle 58px at 46% 20%, rgba(226,166,86,.18), transparent 70%),
+      radial-gradient(circle 18px at 68% 63%, rgba(255,208,128,.46), transparent 62%),
+      radial-gradient(circle 34px at 90% 34%, rgba(226,166,86,.22), transparent 68%),
+      radial-gradient(circle 14px at 54% 55%, rgba(255,214,142,.40), transparent 60%),
+      radial-gradient(ellipse 120% 90% at 78% 30%, rgba(96,68,36,.55), transparent 62%),
+      radial-gradient(ellipse 140% 120% at 20% 90%, rgba(10,8,6,.85), transparent 70%),
+      linear-gradient(148deg,#3E3325 0%,#251E16 52%,#12100D 100%);
+  }
+  .ph-fire{
+    background-image:
+      url("images/kitchen.jpg"),
+      radial-gradient(circle 70px at 34% 66%, rgba(255,142,52,.42), transparent 66%),
+      radial-gradient(circle 36px at 46% 74%, rgba(255,182,86,.44), transparent 62%),
+      radial-gradient(circle 22px at 26% 78%, rgba(255,210,120,.40), transparent 60%),
+      radial-gradient(ellipse 130% 80% at 38% 88%, rgba(150,72,22,.5), transparent 66%),
+      radial-gradient(ellipse 120% 110% at 80% 10%, rgba(8,6,4,.8), transparent 68%),
+      linear-gradient(140deg,#4A3520 0%,#241B12 60%,#15110C 100%);
+  }
+  .ph-r1{
+    background-image:
+      url("images/room-1.jpg"),
+      radial-gradient(circle 46px at 28% 24%, rgba(240,186,96,.30), transparent 66%),
+      radial-gradient(circle 20px at 58% 38%, rgba(255,208,128,.42), transparent 62%),
+      radial-gradient(circle 30px at 72% 62%, rgba(226,166,86,.26), transparent 66%),
+      radial-gradient(circle 14px at 40% 70%, rgba(255,214,142,.38), transparent 60%),
+      radial-gradient(ellipse 140% 110% at 50% 100%, rgba(9,7,5,.85), transparent 66%),
+      linear-gradient(158deg,#463A2B 0%,#221C15 55%,#141110 100%);
+  }
+  .ph-r2{
+    background-image:
+      url("images/room-2.jpg"),
+      radial-gradient(circle 54px at 66% 34%, rgba(255,166,72,.34), transparent 66%),
+      radial-gradient(circle 24px at 44% 56%, rgba(255,200,116,.36), transparent 62%),
+      radial-gradient(ellipse 120% 100% at 30% 96%, rgba(10,8,5,.78), transparent 68%),
+      linear-gradient(202deg,#5A4A33 0%,#2A2116 62%,#171310 100%);
+  }
+  .ph-r3{
+    background-image:
+      url("images/room-3.jpg"),
+      radial-gradient(ellipse 90% 46% at 50% 22%, rgba(196,178,140,.30), transparent 70%),
+      radial-gradient(ellipse 130% 90% at 50% 104%, rgba(8,7,6,.86), transparent 64%),
+      linear-gradient(174deg,#5C5642 0%,#2A2A24 46%,#141310 100%);
+  }
+  .ph-ctr{
+    background-image:
+      url("images/counter.jpg"),
+      radial-gradient(circle 80px at 58% 72%, rgba(255,150,56,.38), transparent 66%),
+      radial-gradient(circle 30px at 40% 60%, rgba(255,196,110,.36), transparent 62%),
+      radial-gradient(circle 16px at 70% 46%, rgba(255,214,142,.42), transparent 60%),
+      radial-gradient(ellipse 120% 110% at 50% 8%, rgba(8,6,4,.82), transparent 66%),
+      linear-gradient(162deg,#4E3B24 0%,#241B12 58%,#161109 100%);
+  }
+  .ph-p1{
+    background-image:
+      url("images/polaroid-1.jpg"),
+      radial-gradient(circle 46px at 50% 44%, rgba(228,196,146,.34), transparent 66%),
+      radial-gradient(ellipse 120% 120% at 50% 108%, rgba(9,7,5,.8), transparent 62%),
+      linear-gradient(150deg,#5C4A31 0%,#2B2117 60%,#181209 100%);
+  }
+  .ph-p2{
+    background-image:
+      url("images/polaroid-2.jpg"),
+      radial-gradient(circle 34px at 56% 38%, rgba(255,196,110,.44), transparent 64%),
+      radial-gradient(ellipse 120% 120% at 40% 106%, rgba(9,7,5,.8), transparent 62%),
+      linear-gradient(160deg,#6A4E2C 0%,#302315 58%,#1A1309 100%);
+  }
+
+  /* film grain over every photo slot, so the tone reads as shot rather than filled */
+  .ph::before{
+    content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.16;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;
+    justify-content:space-between;gap:1.5rem;padding:1.5rem clamp(1.2rem,4vw,3rem);
+    transition:background .5s var(--ease),padding .5s var(--ease);
+  }
+  nav.stuck{background:rgba(18,16,13,.9);backdrop-filter:blur(14px);padding-top:.95rem;padding-bottom:.95rem}
+  nav .mark{font-family:'Cormorant Garamond',serif;font-weight:300;text-transform:uppercase;font-size:1.2rem;letter-spacing:.44em;text-decoration:none;padding-left:.44em;color:var(--cream)}
+  nav .set{display:flex;align-items:center;gap:2.4rem}
+  nav .set a{color:var(--gold);text-decoration:none;position:relative}
+  nav .set a::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+  nav .set a:hover::after{transform:scaleX(1)}
+  nav .res{border:1px solid var(--gold);border-radius:999px;padding:.72rem 1.7rem;color:var(--gold);transition:.4s var(--ease)}
+  nav .res::after{display:none}
+  nav .res:hover{background:var(--gold);color:var(--night)}
+  @media(max-width:900px){nav .set a:not(.res){display:none}}
+
+  /* ---------- HERO ---------- */
+  #hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+  #hero .bg{position:absolute;inset:0;z-index:0}
+  #hero .bg::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(105deg,rgba(12,10,8,.82) 0%,rgba(12,10,8,.5) 46%,rgba(12,10,8,.34) 70%,rgba(12,10,8,.66) 100%),
+               linear-gradient(to top,rgba(12,10,8,.9) 0%,transparent 42%);
+  }
+  .hero-in{position:relative;z-index:2;padding:0 clamp(1.2rem,4vw,3.4rem) clamp(4.5rem,9vw,6.5rem)}
+  .hero-top{position:absolute;top:clamp(5.5rem,9vw,7.5rem);left:clamp(1.2rem,4vw,3.4rem);z-index:2}
+  .hero-top .est{color:var(--gold);display:flex;align-items:center;gap:.7rem}
+  .hero-top .est::before{content:"✳";font-size:.8rem;letter-spacing:0}
+  .hero-top .place{color:var(--cream-dim);margin-top:1.5rem;letter-spacing:.42em}
+  .hero-name{
+    font-family:'Cormorant Garamond',serif;font-weight:300;text-transform:uppercase;
+    font-size:clamp(3.4rem,15.5vw,13rem);line-height:.86;letter-spacing:.08em;color:var(--cream);
+    opacity:0;animation:settle 1.8s var(--ease) .25s forwards;
+  }
+  @keyframes settle{from{opacity:0;letter-spacing:.28em}to{opacity:1;letter-spacing:.08em}}
+  .hero-tag{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(1.05rem,2.3vw,1.6rem);color:var(--cream-dim);margin-top:1.6rem;max-width:44ch;opacity:0;animation:rise 1.2s var(--ease) 1.1s forwards}
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .hero-note{font-size:.86rem;color:var(--cream-dim);max-width:38ch;line-height:1.75;margin-top:2.6rem;opacity:0;animation:rise 1.2s var(--ease) 1.4s forwards}
+  .hero-line{position:absolute;left:0;right:0;bottom:clamp(1.6rem,3vw,2.4rem);z-index:2;text-align:center;color:var(--cream-dim);letter-spacing:.3em;font-size:.66rem;text-transform:uppercase}
+  .hero-line b{color:var(--gold);font-weight:400}
+
+  /* polaroids */
+  .polas{position:absolute;right:clamp(1.2rem,4vw,3.4rem);top:22%;z-index:2;display:flex;flex-direction:column;gap:1.4rem;align-items:flex-end}
+  @media(max-width:1000px){.polas{display:none}}
+  .pola{
+    background:var(--cream);padding:.72rem .72rem 0;width:190px;
+    box-shadow:0 26px 50px -18px rgba(0,0,0,.7);
+    opacity:0;animation:pop 1s var(--ease) forwards;
+  }
+  .pola:nth-child(1){transform:rotate(2.4deg);animation-delay:1.6s}
+  .pola:nth-child(2){transform:rotate(-3deg);margin-right:2.6rem;animation-delay:1.85s}
+  @keyframes pop{from{opacity:0;transform:translateY(20px) rotate(0)}}
+  .pola .img{aspect-ratio:1/1}
+  .pola figcaption{color:#2A241B;text-align:center;padding:.66rem 0 .8rem;font-size:.58rem;letter-spacing:.24em;text-transform:uppercase}
+
+  /* monogram */
+  .mono{
+    position:absolute;right:clamp(1.2rem,4vw,3.4rem);bottom:clamp(4.5rem,8vw,6rem);z-index:2;
+    width:96px;height:96px;border:1px solid var(--gold);border-radius:50%;
+    display:grid;place-items:center;text-align:center;color:var(--gold);
+  }
+  .mono .m1{font-family:'Cormorant Garamond',serif;font-size:1.5rem;letter-spacing:.14em;line-height:1;margin-bottom:.2rem}
+  .mono .m2{font-size:.5rem;letter-spacing:.22em;text-transform:uppercase}
+  .mono div{display:block}
+  @media(max-width:720px){.mono{display:none}}
+
+  /* ---------- MARQUEE ---------- */
+  .ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:.95rem 0;background:var(--night)}
+  .ticker .track{display:flex;width:max-content;animation:slide 34s linear infinite}
+  .ticker span{color:var(--gold);letter-spacing:.3em;text-transform:uppercase;font-size:.68rem;padding:0 1.6rem;white-space:nowrap}
+  .ticker .st{color:var(--gold-dim)}
+  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .ticker:hover .track{animation-play-state:paused}
+
+  /* ---------- SECTIONS ---------- */
+  .sec{padding:clamp(4rem,9vw,7.5rem) 0}
+  .lead{display:flex;align-items:center;gap:1.1rem;margin-bottom:clamp(2rem,4vw,3rem)}
+  .lead .n{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:.9rem;letter-spacing:.1em}
+  .lead .l{color:var(--cream-dim)}
+  .lead .rule{flex:1;height:1px;background:var(--line)}
+  .h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.9rem,4.8vw,3.6rem);line-height:1.1;letter-spacing:.01em}
+  .h2 em{font-style:italic;color:var(--gold)}
+
+  /* kitchen */
+  #kitchen .kg{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(1.6rem,4vw,3.4rem);align-items:center}
+  @media(max-width:880px){#kitchen .kg{grid-template-columns:1fr}}
+  #kitchen .ph{aspect-ratio:4/3.4}
+  #kitchen p{font-size:.95rem;color:var(--smoke);line-height:1.9;margin-top:1.4rem;max-width:50ch}
+  #kitchen .sign{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.35rem;color:var(--cream);margin-top:1.6rem}
+
+  /* progression */
+  #menu{background:var(--night-2)}
+  #menu .head{text-align:center;max-width:60ch;margin:0 auto clamp(2.4rem,5vw,3.6rem)}
+  #menu .head .util{color:var(--gold)}
+  #menu .head .h2{margin-top:1rem}
+  #menu .head p{color:var(--smoke);margin-top:1.1rem;font-size:.92rem}
+  .courses{border-top:1px solid var(--line)}
+  .course{display:grid;grid-template-columns:4rem 1fr auto;gap:clamp(.9rem,3vw,2.4rem);align-items:baseline;
+    padding:clamp(1.4rem,3vw,2rem) 0;border-bottom:1px solid var(--line);position:relative;transition:padding-left .45s var(--ease)}
+  .course:hover{padding-left:1rem}
+  .course::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--gold);transform:scaleY(0);transform-origin:top;transition:transform .45s var(--ease)}
+  .course:hover::before{transform:scaleY(1)}
+  .course .rom{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--gold);letter-spacing:.12em}
+  .course h3{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(1.25rem,2.7vw,1.9rem);line-height:1.2;letter-spacing:.01em}
+  .course .ing{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.06rem;color:var(--smoke);margin-top:.3rem}
+  .course .note{font-size:.78rem;color:var(--smoke);opacity:.72;margin-top:.55rem;max-width:50ch;line-height:1.7}
+  .course .pair{text-align:right;min-width:9rem}
+  .course .pair .k{font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-dim)}
+  .course .pair .v{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.02rem;margin-top:.25rem}
+  @media(max-width:760px){
+    .course{grid-template-columns:2.2rem 1fr}
+    .course .pair{grid-column:2;text-align:left;margin-top:.6rem;min-width:0}
+  }
+  .prow{display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap;margin-top:2.6rem;padding-top:2rem;border-top:1px solid var(--line)}
+  .prow .amt{font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,3.2vw,2rem)}
+  .prow .amt small{display:block;font-family:'Jost',sans-serif;font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-dim);margin-top:.5rem}
+  .btn{
+    display:inline-flex;align-items:center;gap:.8rem;border:1px solid var(--gold);border-radius:999px;
+    color:var(--gold);text-decoration:none;padding:.95rem 2rem;
+    font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;transition:.4s var(--ease);
+  }
+  .btn:hover{background:var(--gold);color:var(--night)}
+  .btn.solid{background:var(--gold);color:var(--night)}
+  .btn.solid:hover{background:transparent;color:var(--gold)}
+
+  /* raw bar */
+  .rawg{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(2.4rem,6vw,5rem);margin-top:2.4rem}
+  @media(max-width:780px){.rawg{grid-template-columns:1fr}}
+  .item{display:flex;align-items:baseline;gap:.8rem;padding:.9rem 0;border-bottom:1px solid rgba(240,233,218,.09)}
+  .item .nm{white-space:nowrap;font-size:.98rem}
+  .item .nm em{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--smoke);margin-left:.4rem}
+  .item .dots{flex:1;border-bottom:1px dotted rgba(240,233,218,.28);transform:translateY(-.26rem)}
+  .item .pr{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:1rem}
+
+  /* room */
+  .roomg{display:grid;grid-template-columns:1.2fr .8fr;gap:.9rem;margin-top:2.4rem}
+  @media(max-width:820px){.roomg{grid-template-columns:1fr}}
+  .plate{position:relative;overflow:hidden;min-height:250px;display:flex;align-items:flex-end}
+  .plate.tall{grid-row:span 2;min-height:520px}
+  .plate::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(12,10,8,.8),transparent 55%)}
+  .plate figcaption{position:relative;z-index:2;padding:1.3rem 1.4rem;font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:var(--cream)}
+
+  /* counter */
+  .ctr{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.6rem,4vw,4rem);align-items:center}
+  @media(max-width:860px){.ctr{grid-template-columns:1fr}}
+  .ctr p{color:var(--smoke);margin-top:1.2rem;font-size:.95rem;line-height:1.9;max-width:50ch}
+  .facts{border-top:1px solid var(--line);margin-top:2rem}
+  .facts div{display:flex;justify-content:space-between;gap:1.5rem;padding:.85rem 0;border-bottom:1px solid var(--line);font-size:.9rem}
+  .facts div span:first-child{color:var(--smoke)}
+  .facts div span:last-child{font-family:'Cormorant Garamond',serif;color:var(--cream);font-size:1.02rem}
+  .ctr .ph{aspect-ratio:4/4.4}
+
+  /* reserve */
+  #reserve{text-align:center;padding:clamp(4.5rem,10vw,8rem) 0;position:relative}
+  #reserve .util{color:var(--gold)}
+  #reserve h2{font-family:'Cormorant Garamond',serif;font-weight:300;text-transform:uppercase;font-size:clamp(2.4rem,8vw,6.5rem);letter-spacing:.09em;line-height:1;margin-top:1.4rem}
+  #reserve .hrs{display:flex;justify-content:center;gap:clamp(1.8rem,5vw,4rem);flex-wrap:wrap;margin-top:2.8rem}
+  #reserve .hrs .k{font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-dim)}
+  #reserve .hrs .v{font-family:'Cormorant Garamond',serif;font-size:1.06rem;margin-top:.45rem}
+  #reserve .addr{margin-top:2.4rem;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--smoke);line-height:1.8}
+  #reserve .btn{margin-top:2.2rem}
+
+  footer{border-top:1px solid var(--line);padding:2.4rem 0;color:var(--smoke);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase}
+  .fbar{display:flex;justify-content:space-between;gap:1.4rem;flex-wrap:wrap;align-items:center}
+  .fbar a{text-decoration:none}.fbar a:hover{color:var(--gold)}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .hero-name,.hero-tag,.hero-note,.pola{opacity:1!important;letter-spacing:.08em}
+    .pola{transform:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#hero" class="mark">Marisol</a>
+  <div class="set util">
+    <a href="#menu">Menu</a>
+    <a href="#raw">Raw Bar</a>
+    <a href="#room">The Room</a>
+    <a href="#counter">Counter</a>
+    <a href="#reserve" class="res">Reservations</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <!-- images/hero.jpg — dark dining room at service, warm candlelight, shallow depth of field -->
+  <div class="bg ph ph-hero"></div>
+
+  <div class="hero-top">
+    <div class="util est">Cocina del Mar — Est. 2019</div>
+    <div class="util place">[ Newport Beach · California ]</div>
+  </div>
+
+  <div class="polas">
+    <!-- images/polaroid-1.jpg — hero dish, overhead, dark plate -->
+    <figure class="pola"><div class="img ph ph-p1"></div><figcaption>Yellowtail collar</figcaption></figure>
+    <!-- images/polaroid-2.jpg — cocktail or wine pour, low light -->
+    <figure class="pola"><div class="img ph ph-p2"></div><figcaption>Mezcal de temporada</figcaption></figure>
+  </div>
+
+  <div class="mono"><div><div class="m1">M</div><div class="m2">Desde 2019</div></div></div>
+
+  <div class="hero-in">
+    <h1 class="hero-name">Marisol</h1>
+    <p class="hero-tag">Five courses, decided each morning by whatever the dory fleet drags onto the sand.</p>
+    <p class="hero-note">A thirty-four seat room four blocks from the pier. Tasting menu only, one wine list, and a raw bar that runs until the ice goes.</p>
+  </div>
+
+  <div class="hero-line">2411 West Oceanfront · Newport Beach — <b>Reservations 949 555 0188</b></div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="track">
+    <span>Dory Fleet Daily</span><span class="st">✳</span><span>Five Courses</span><span class="st">✳</span>
+    <span>Red Oak Fire</span><span class="st">✳</span><span>Raw Bar Till Late</span><span class="st">✳</span>
+    <span>Thirty-Four Seats</span><span class="st">✳</span><span>Newport Beach</span><span class="st">✳</span>
+    <span>Dory Fleet Daily</span><span class="st">✳</span><span>Five Courses</span><span class="st">✳</span>
+    <span>Red Oak Fire</span><span class="st">✳</span><span>Raw Bar Till Late</span><span class="st">✳</span>
+    <span>Thirty-Four Seats</span><span class="st">✳</span><span>Newport Beach</span><span class="st">✳</span>
+  </div>
+</div>
+
+<!-- KITCHEN -->
+<section id="kitchen" class="sec">
+  <div class="wrap">
+    <div class="lead"><span class="n">I</span><span class="l util">The Kitchen</span><span class="rule"></span></div>
+    <div class="kg">
+      <div>
+        <h2 class="h2">The menu is written at six in the morning, on the sand, <em>before we know what we're cooking.</em></h2>
+        <p>The Newport dory fleet has pulled boats onto the beach at the foot of the pier since 1891. It's the last of its kind on the West Coast. Our chef walks down at dawn, buys what came up, and drives it four blocks to the kitchen. That's the whole sourcing strategy.</p>
+        <p>Which means we can't tell you in advance what you'll eat. Some nights it's sand dabs and spot prawns. Some nights the swell was wrong and dinner leans on the farm in San Juan Capistrano instead. What we can promise is that nothing on your table sat in a truck overnight.</p>
+        <p class="sign">— Elena Ruiz-Marín, chef</p>
+      </div>
+      <!-- images/kitchen.jpg — open fire, grill, hands working; warm and dark -->
+      <div class="ph ph-fire"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESSION -->
+<section id="menu" class="sec">
+  <div class="wrap">
+    <div class="head">
+      <div class="util">A representative evening</div>
+      <h2 class="h2">The Progression</h2>
+      <p>Five courses, roughly two hours, moving from cold and raw through fire and finishing sweet. This is last Saturday's menu — yours will differ.</p>
+    </div>
+
+    <div class="courses">
+      <article class="course">
+        <div class="rom">I</div>
+        <div>
+          <h3>Kanpachi, green almond, sea fig</h3>
+          <div class="ing">cured ninety minutes, buttermilk, wild fennel pollen</div>
+          <p class="note">The only course that never changes shape. Something raw, something green, something from the shore.</p>
+        </div>
+        <div class="pair"><div class="k">Poured with</div><div class="v">Txakoli, Getaria</div></div>
+      </article>
+      <article class="course">
+        <div class="rom">II</div>
+        <div>
+          <h3>Spot prawns, head butter, charred lemon</h3>
+          <div class="ing">grilled over red oak, brought out whole</div>
+          <p class="note">Eaten with hands. We bring cloth, not a fork.</p>
+        </div>
+        <div class="pair"><div class="k">Poured with</div><div class="v">Vermentino, Sardegna</div></div>
+      </article>
+      <article class="course">
+        <div class="rom">III</div>
+        <div>
+          <h3>Sand dab, brown butter, preserved fig leaf</h3>
+          <div class="ing">bone-in, dressed at the pass</div>
+          <p class="note">Whatever the fleet had most of that morning lands here. Halibut and white seabass are the usual understudies.</p>
+        </div>
+        <div class="pair"><div class="k">Poured with</div><div class="v">Chablis, 1er Cru</div></div>
+      </article>
+      <article class="course">
+        <div class="rom">IV</div>
+        <div>
+          <h3>Dry-aged yellowtail collar</h3>
+          <div class="ing">eleven days, salt-cured, mezcal and burnt orange</div>
+          <p class="note">The one course we hold back for the fire. Carved at the table for parties of four or more.</p>
+        </div>
+        <div class="pair"><div class="k">Poured with</div><div class="v">Cinsault, Santa Barbara</div></div>
+      </article>
+      <article class="course">
+        <div class="rom">V</div>
+        <div>
+          <h3>Olive oil cake, tangerine leaf ice</h3>
+          <div class="ing">citrus from the grove in Capistrano, saba</div>
+          <p class="note">Elena's grandmother's recipe, unchanged since 1968 except for the ice.</p>
+        </div>
+        <div class="pair"><div class="k">Poured with</div><div class="v">Moscatel, Málaga</div></div>
+      </article>
+    </div>
+
+    <div class="prow">
+      <div class="amt">$165 <small>per guest, tasting menu</small></div>
+      <div class="amt">$95 <small>wine pairing, five pours</small></div>
+      <a href="#reserve" class="btn solid">Reserve a table</a>
+    </div>
+  </div>
+</section>
+
+<!-- RAW BAR -->
+<section id="raw" class="sec">
+  <div class="wrap">
+    <div class="lead"><span class="n">II</span><span class="l util">Bar counter only</span><span class="rule"></span></div>
+    <h2 class="h2">Raw bar &amp; <em>à la carte</em></h2>
+    <p style="color:var(--smoke);margin-top:.9rem;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.15rem">Ten stools, first come, no reservations. Open till midnight Friday and Saturday.</p>
+    <div class="rawg">
+      <div>
+        <div class="item"><span class="nm">Kumamoto oysters <em>half dozen</em></span><span class="dots"></span><span class="pr">28</span></div>
+        <div class="item"><span class="nm">Santa Barbara uni <em>on toast</em></span><span class="dots"></span><span class="pr">32</span></div>
+        <div class="item"><span class="nm">Rock crab, chilled <em>half</em></span><span class="dots"></span><span class="pr">36</span></div>
+        <div class="item"><span class="nm">Hamachi crudo <em>yuzu kosho</em></span><span class="dots"></span><span class="pr">26</span></div>
+        <div class="item"><span class="nm">Smoked mussel escabeche</span><span class="dots"></span><span class="pr">19</span></div>
+      </div>
+      <div>
+        <div class="item"><span class="nm">Bread, cultured butter, sea salt</span><span class="dots"></span><span class="pr">9</span></div>
+        <div class="item"><span class="nm">Little gems, anchovy, bottarga</span><span class="dots"></span><span class="pr">21</span></div>
+        <div class="item"><span class="nm">Grilled octopus, romesco</span><span class="dots"></span><span class="pr">29</span></div>
+        <div class="item"><span class="nm">Salt cod croquetas <em>five</em></span><span class="dots"></span><span class="pr">17</span></div>
+        <div class="item"><span class="nm">Basque cheesecake</span><span class="dots"></span><span class="pr">14</span></div>
+      </div>
+    </div>
+    <p style="margin-top:2rem;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-dim)">The counter runs on what the dining room didn't use. When it's gone, it's gone.</p>
+  </div>
+</section>
+
+<!-- THE ROOM -->
+<section id="room" class="sec">
+  <div class="wrap">
+    <div class="lead"><span class="n">III</span><span class="l util">The Room</span><span class="rule"></span></div>
+    <div class="roomg">
+      <!-- images/room-1.jpg — wide dining room, candles lit, tall -->
+      <figure class="plate tall ph ph-r1"><figcaption>Thirty-four seats · Candlelit after seven</figcaption></figure>
+      <!-- images/room-2.jpg — open kitchen / pass -->
+      <figure class="plate ph ph-r2"><figcaption>Open kitchen · Red oak fire</figcaption></figure>
+      <!-- images/room-3.jpg — the pier or the boats at dawn -->
+      <figure class="plate ph ph-r3"><figcaption>The dory fleet · Four blocks west</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- COUNTER -->
+<section id="counter" class="sec">
+  <div class="wrap ctr">
+    <div>
+      <div class="lead"><span class="n">IV</span><span class="l util">Private &amp; Events</span><span class="rule"></span></div>
+      <h2 class="h2">Six seats <em>facing the fire.</em></h2>
+      <p>The chef's counter runs one seating a night — an extended nine-course version of the progression, served by the cooks who made it. It books out about six weeks ahead, and it's the only table where you get to ask questions all night.</p>
+      <p>For larger parties the room buys out cleanly at thirty-four, and we'll build the menu around whatever the occasion is.</p>
+      <div class="facts">
+        <div><span>Chef's counter</span><span>$265 per guest</span></div>
+        <div><span>Seatings</span><span>One nightly, 6:30pm</span></div>
+        <div><span>Full buyout</span><span>From $9,500</span></div>
+        <div><span>Notice for buyouts</span><span>Three weeks</span></div>
+      </div>
+      <div style="margin-top:2rem"><a href="#reserve" class="btn">Enquire about the counter</a></div>
+    </div>
+    <!-- images/counter.jpg — chef's counter, cooks plating, fire behind -->
+    <div class="ph ph-ctr"></div>
+  </div>
+</section>
+
+<!-- RESERVE -->
+<section id="reserve">
+  <div class="wrap">
+    <div class="util">Reservations</div>
+    <h2>Come Hungry</h2>
+    <div class="hrs">
+      <div><div class="k">Tuesday – Thursday</div><div class="v">5:30 – 9:30 pm</div></div>
+      <div><div class="k">Friday – Saturday</div><div class="v">5:30 – 11:00 pm</div></div>
+      <div><div class="k">Sunday</div><div class="v">5:00 – 9:00 pm</div></div>
+      <div><div class="k">Monday</div><div class="v">Closed</div></div>
+    </div>
+    <p class="addr">Tables open thirty days ahead, at nine in the morning.<br>2411 West Oceanfront, Newport Beach · reserve@marisolnb.com</p>
+    <a href="tel:+19495550188" class="btn solid">Call the host stand</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap fbar">
+    <span>Marisol · Newport Beach · © 2026</span>
+    <span><a href="#menu">Menu</a> · <a href="#reserve">Reservations</a> · <a href="#counter">Private dining</a> · <a href="#hero">Gift cards</a></span>
+  </div>
+</footer>
+
+<script>
+  var nav=document.getElementById('nav');
+  var f=function(){nav.classList.toggle('stuck',window.scrollY>60)};
+  window.addEventListener('scroll',f,{passive:true});f();
+</script>
+</body>
+</html>

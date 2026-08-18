@@ -1,0 +1,1563 @@
+/* ==========================================================================
+   Crew Salon — stylesheet
+   Ported from the single-file concept. Design tokens are unchanged.
+
+   Section map:
+     1.  Fonts
+     2.  Tokens
+     3.  Reset & base
+     4.  Utilities
+     5.  Skip link & focus
+     6.  Buttons
+     7.  Header & navigation (incl. mobile disclosure)
+     8.  Hero (incl. video background)
+     9.  Proof bar
+     10. Generic two-column / frames
+     11. Services
+     12. Team
+     13. Reviews
+     14. Gallery
+     15. Reusable centered CTA row
+     16. Booking
+     17. Visit
+     18. Footer
+     19. Sticky mobile book/call bar
+     20. Motion
+     21. Demo mode (pitch preview only, off by default)
+   ========================================================================== */
+
+/* 1. Fonts ---------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("../assets/fonts/cormorant-garamond-latin-var.woff2") format("woff2");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("../assets/fonts/cormorant-garamond-latin-var-italic.woff2") format("woff2");
+  font-weight: 300 700;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Public Sans";
+  src: url("../assets/fonts/public-sans-latin-var.woff2") format("woff2");
+  font-weight: 300 600;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* 2. Tokens --------------------------------------------------------------- */
+
+:root {
+  --ink: #12100e;
+  --ink-2: #1c1917;
+  --paper: #faf7f2;
+  --paper-2: #f2ece3;
+  /* Brand gold, hue 40deg / sat 42.5%. Three lightnesses, all the same hue,
+     each chosen for a measured contrast job:
+       --gold       decorative only (rules, borders, scrims). 2.91:1 on paper,
+                    so it must never carry text or be a background for text.
+       --gold-ink   gold text on a light surface. 5.06:1 on --paper,
+                    4.60:1 on --paper-2 (the binding case). Passes AA.
+       --gold-deep  background for white text. 4.71:1. Passes AA.
+       --gold-lt    gold text on --ink. 10.43:1. Passes AA and AAA. */
+  --gold: #b08d47;
+  --gold-ink: #806634;
+  --gold-deep: #8b7038;
+  --gold-lt: #d8bd85;
+  --muted: #6f675e;
+  --line: rgba(18, 16, 14, 0.12);
+
+  --serif: "Cormorant Garamond", Georgia, serif;
+  /* Swapped from Inter: honest, functional, designed for civic-form legibility
+     rather than product-UI neutrality. Same weight range (300-600), same job. */
+  --sans: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Type scale. Fluid where it needs to be, fixed where it must stay legible.
+     Never below --fs-micro for anything a customer has to read. */
+  --fs-micro: 0.72rem;   /* 11.5px - uppercase labels, tracked wide */
+  --fs-small: 0.82rem;   /* 13px   - notes, captions */
+  --fs-body: 1rem;       /* 16px   - body floor, avoids iOS zoom on inputs */
+  --fs-lede: 1.0625rem;  /* 17px   - intro paragraphs */
+  --fs-h3: 1.35rem;
+  --fs-h2: clamp(1.9rem, 4vw, 2.9rem);
+  --fs-h1: clamp(2.4rem, 5.6vw, 4.2rem);
+  --fs-display: clamp(1.6rem, 2.4vw, 2.1rem); /* stat numerals */
+
+  /* Vertical rhythm. Three tiers, used deliberately. */
+  --space-section: clamp(64px, 8vw, 108px);
+  --space-section-lg: clamp(84px, 11vw, 148px);
+  --space-block: clamp(2.2rem, 4vw, 3.5rem);
+
+  --measure: 62ch; /* body line-length cap */
+
+  /* on-ink text tiers, used over dark sections and over the hero scrim */
+  --on-ink: #faf7f2;
+  --on-ink-2: rgba(250, 247, 242, 0.78);
+  --on-ink-3: rgba(250, 247, 242, 0.6);
+  --on-ink-line: rgba(250, 247, 242, 0.16);
+
+  /* Custom curves. The built-in CSS easings are too weak to read as
+     intentional. ease-in is never used: it delays the first few frames, which
+     is exactly when the user is looking. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+  --dur-press: 150ms; /* press feedback */
+  --dur-fast: 140ms;  /* exits */
+  --dur: 220ms;       /* enters, hovers */
+  --dur-reveal: 300ms;
+
+  --header-h: 74px;
+  --bar-h: 60px;
+
+  /* z-index scale */
+  --z-bar: 60;
+  --z-header: 50;
+  --z-nav: 55;
+  --z-skip: 100;
+}
+
+/* 3. Reset & base --------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* keep anchor targets clear of the sticky header */
+  scroll-padding-top: calc(var(--header-h) + 16px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--serif);
+  font-weight: 300;
+  line-height: 1.1;
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--fs-h1);
+  letter-spacing: -0.022em;
+  /* italic descenders in the display serif need room or the y/g clips */
+  line-height: 1.06;
+  padding-bottom: 0.06em;
+}
+
+h2 {
+  font-size: var(--fs-h2);
+  letter-spacing: -0.012em;
+  line-height: 1.1;
+}
+
+h3 {
+  font-size: var(--fs-h3);
+  letter-spacing: -0.005em;
+}
+
+section {
+  padding: var(--space-section) 0;
+}
+
+/* A section that opens a page carries more air above than between */
+section + section {
+  padding-top: var(--space-section);
+}
+
+/* prices, hours — keep columns from jittering */
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 4. Utilities ------------------------------------------------------------ */
+
+.wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.lede {
+  font-size: var(--fs-lede);
+  color: var(--muted);
+  margin: 1.5rem 0 0;
+  max-width: var(--measure);
+}
+
+.lede + .lede {
+  margin-top: 1.1rem;
+}
+
+.note {
+  margin-top: 2rem;
+  font-size: var(--fs-small);
+  color: var(--muted);
+  font-style: italic;
+  max-width: var(--measure);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* A placeholder marker. Deliberately visible — these must not ship unfilled. */
+.todo {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a5a00;
+  background: #fdf3dc;
+  border: 1px dashed #c9a24a;
+  padding: 0.25em 0.6em;
+  line-height: 1.4;
+}
+
+.page-head {
+  padding: clamp(48px, 7vw, 88px) 0 0;
+}
+
+/* 5. Skip link & focus ---------------------------------------------------- */
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: var(--z-skip);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.9rem 1.4rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: top var(--dur-fast) var(--ease-out);
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+/* Visible focus for keyboard users. Never remove the ring — replace it. */
+:focus-visible {
+  /* focus indicators need 3:1 against adjacent colors; --gold is only 2.91 */
+  outline: 2px solid var(--gold-deep);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+/* on dark sections the gold ring needs to be lighter to stay visible */
+.team :focus-visible,
+.hero :focus-visible,
+footer :focus-visible,
+.mobile-bar :focus-visible {
+  outline-color: var(--gold-lt);
+}
+
+/* 6. Buttons -------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px; /* touch target floor */
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1.05rem 2rem;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+
+/* Press feedback. Confirms the interface heard the tap. Subtle on purpose,
+   and it works on touch where :hover does not. */
+.btn:active,
+.mobile-bar a:active,
+.nav-toggle:active,
+.card-book:active {
+  transform: scale(0.97);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn--gold {
+  background: var(--gold-deep);
+  border-color: var(--gold-deep);
+  color: #fff;
+}
+
+/* outline button for use on dark backgrounds */
+.btn--on-ink {
+  background: transparent;
+  border-color: rgba(250, 247, 242, 0.4);
+  color: var(--on-ink);
+}
+
+/* 7. Header & navigation -------------------------------------------------- */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  background: rgba(250, 247, 242, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-h);
+  gap: 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink);
+  flex: 0 0 auto;
+}
+
+/* At the header's actual 32px size the monogram's traced strokes and the
+   wordmark's light weight read as faded rather than restrained. Confirmed via
+   a live-mode variant test: scaling up (rather than thickening the strokes,
+   or dropping the monogram) kept the exact same delicate character and just
+   gave it enough size to actually read. transform, not a larger width/height
+   on the image, so it does not disturb the header's own layout box; footer's
+   .brand stays its original size, this is header-only. */
+header .brand {
+  transform: scale(1.25);
+  transform-origin: left center;
+}
+
+/* The header uses the monogram, not the full stacked lockup. At 32px the
+   lockup's "CREW / SALON" sub-text is unreadable and duplicates the wordmark
+   sitting next to it. The full lockup lives in assets/logo/crew-logo.svg for
+   print and social use.
+   Explicit width/height on the image element prevents reflow while it loads. */
+.brand img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.brand-name {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-left: 0.7rem;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  /* The shortest label ("Visit") measured 39px wide. WCAG 2.5.8 AA only asks
+     for 24x24 and this is a fine-pointer context, but the padding is free. */
+  padding-inline: 6px;
+  text-decoration: none;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  transition: color var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out);
+}
+
+/* current page, set by js/main.js from location.pathname */
+.nav-links a[aria-current="page"] {
+  color: var(--gold-ink);
+  border-color: var(--gold-ink);
+}
+
+.nav-book {
+  padding: 0.8rem 1.4rem;
+  font-size: 0.7rem;
+  flex: 0 0 auto;
+}
+
+/* mobile disclosure trigger */
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-right: -10px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--ink);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.nav-toggle svg {
+  width: 22px;
+  height: 22px;
+}
+
+.nav-toggle .icon-close {
+  display: none;
+}
+
+.nav-toggle[aria-expanded="true"] .icon-open {
+  display: none;
+}
+
+.nav-toggle[aria-expanded="true"] .icon-close {
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .nav-toggle {
+    display: inline-flex;
+    /* Between 701 and 900px the row is brand + toggle + Book button. Without
+       this, space-between strands the toggle in the middle of the header. */
+    margin-left: auto;
+  }
+
+  /* the panel is a real disclosure: hidden attribute, not display juggling */
+  .nav-panel[hidden] {
+    display: none;
+  }
+
+  .nav-panel {
+    position: fixed;
+    inset: var(--header-h) 0 0;
+    z-index: var(--z-nav);
+    background: var(--paper);
+    padding: 8px 24px calc(var(--bar-h) + 32px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .nav-links li + li {
+    border-top: 1px solid var(--line);
+  }
+
+  .nav-links a {
+    min-height: 56px;
+    width: 100%;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    border-bottom: 0;
+  }
+
+  .nav-links a[aria-current="page"] {
+    border-bottom: 0;
+    color: var(--gold-ink);
+  }
+
+  .nav-panel .btn {
+    width: 100%;
+    margin-top: 1.5rem;
+  }
+}
+
+@media (min-width: 901px) {
+  /* Above the breakpoint the panel is always visible, so the `hidden`
+     attribute is overridden. Overriding the UA `display:none` also puts it
+     back in the accessibility tree. */
+  .nav-panel,
+  .nav-panel[hidden] {
+    display: flex;
+    align-items: center;
+  }
+
+  /* the panel's Book button is the mobile one; desktop uses .nav-book */
+  .nav-panel .btn {
+    display: none;
+  }
+}
+
+/* 8. Hero ----------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  min-height: 88vh;
+  display: flex;
+  align-items: center;
+  background: var(--ink);
+  color: var(--on-ink);
+  overflow: hidden;
+  padding: 96px 0;
+}
+
+/* media layer — poster as background, <video> injected by JS on wide screens */
+.hero-media {
+  position: absolute;
+  inset: 0;
+  background-image: url("../assets/img/hero-poster.jpg");
+  background-size: cover;
+  background-position: center 40%;
+  background-color: var(--ink);
+}
+
+.hero-media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Scrim. Sized from measurement, not taste.
+   The footage contains blown-out highlights (brightest pixel behind the copy
+   is roughly grey 253), so the scrim has to hold across the whole text column
+   rather than fade early. It stays at or above 0.90 through the left 52% and
+   only falls off past 78%, where no text sits. That keeps every text tier
+   above AA against the worst frame of the loop, and still lets the footage
+   read on the right. Re-measure if the video is ever re-cut. */
+.hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      100deg,
+      rgba(18, 16, 14, 0.94) 0%,
+      rgba(18, 16, 14, 0.92) 52%,
+      rgba(18, 16, 14, 0.74) 78%,
+      rgba(18, 16, 14, 0.52) 100%
+    ),
+    radial-gradient(
+      ellipse at 82% 24%,
+      rgba(176, 141, 71, 0.18),
+      transparent 60%
+    );
+  pointer-events: none;
+}
+
+.hero .wrap {
+  position: relative;
+  z-index: 2;
+}
+
+/* 24ch keeps the headline to two lines at desktop. At 17ch it broke to three. */
+.hero h1 {
+  max-width: 24ch;
+  margin-bottom: 1.5rem;
+}
+
+/* Italic in the display serif: the descender on "y" and "g" clips against a
+   tight line-height, so h1 carries line-height 1.06 plus padding-bottom. */
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold-lt);
+}
+
+/* Its own class, not `.hero p`. As a descendant selector `.hero p` outranked
+   `.eyebrow` and was overriding the eyebrow's size and color. */
+.hero-sub {
+  max-width: 48ch;
+  font-size: var(--fs-lede);
+  color: var(--on-ink-2);
+  margin: 0 0 2.4rem;
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+/* 9. Proof bar ------------------------------------------------------------ */
+
+.proof {
+  background: var(--paper-2);
+  padding: 0;
+}
+
+.proof-in {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1px;
+  background: var(--line);
+}
+
+.proof-in div {
+  background: var(--paper-2);
+  padding: 2.2rem 1.5rem;
+  text-align: center;
+}
+
+.proof-in b {
+  display: block;
+  font-family: var(--serif);
+  font-size: var(--fs-display);
+  font-weight: 400;
+  color: var(--gold-ink);
+  line-height: 1.15;
+}
+
+.proof-in span {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* 10. Generic two-column / frames ---------------------------------------- */
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+}
+
+@media (max-width: 860px) {
+  .split {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* placeholder image slot — intentionally looks unfinished */
+.frame {
+  aspect-ratio: 4 / 5;
+  background: var(--paper-2);
+  border: 1px dashed var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 1.5rem;
+}
+
+.frame--wide {
+  aspect-ratio: 16 / 10;
+}
+
+.frame--square {
+  aspect-ratio: 1 / 1;
+}
+
+/* a frame that js/main.js has filled with a real Instagram image. The dashed
+   "unfinished" treatment is dropped only once there is genuinely something
+   in it, so an empty or failed feed still reads as a placeholder. */
+.frame--filled {
+  border-style: solid;
+  border-color: transparent;
+  padding: 0;
+  overflow: hidden;
+}
+
+.ig-item {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ig-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity var(--dur) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ig-item:hover img {
+    opacity: 0.82;
+  }
+}
+
+/* 11. Services ------------------------------------------------------------ */
+
+.svc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 3.5rem;
+}
+
+/* The hairlines are drawn by each cell's own outline rather than by a tinted
+   container showing through 1px gaps. With auto-fit, the number of columns
+   rarely divides the number of cards evenly (4 categories in 3 columns), and
+   the old technique rendered those unfilled tracks as a visible grey block.
+   Outlines bleed into the gap without affecting layout, so an empty track now
+   draws nothing at all. */
+.svc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 1px;
+}
+
+.svc {
+  background: var(--paper);
+  outline: 1px solid var(--line);
+  padding: 2.4rem 2rem;
+}
+
+/* On services.html these group headings are h2 (they sit directly under the
+   page h1 with no intervening level). On index.html the same cards sit under a
+   section h2, so they are h3 there. Both render identically. */
+.svc h2,
+.svc h3 {
+  margin-bottom: 1.4rem;
+  font-size: 1.5rem;
+  letter-spacing: -0.005em;
+}
+
+/* A sub-group inside a category, e.g. "Haircut" inside "Styling", where the
+   service has more than one price (stylist tier, add-on, etc). Real h3 for a
+   correct outline under the category h2; the .svc-sub class overrides the
+   plain .svc h3 category-title size above it, since services.html uses h3 for
+   both roles at different nesting depths. Reuses the site's existing small
+   tracked label voice (same role as .info dt) rather than inventing a new
+   one. Margins collapse against the category heading's own margin-bottom, no
+   extra first-child case needed. */
+.svc .svc-sub {
+  font-family: var(--sans);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-ink);
+  margin: 1.6rem 0 0.5rem;
+}
+
+.svc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.svc ul + .svc-sub {
+  margin-top: 1.6rem;
+}
+
+.svc li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.7rem 0;
+  border-bottom: 1px dotted var(--line);
+  font-size: 0.94rem;
+}
+
+.svc li:last-child {
+  border-bottom: 0;
+}
+
+/* the service name wraps; the price never does */
+.svc li > span:first-child {
+  min-width: 0;
+}
+
+.svc .price {
+  color: var(--gold-ink);
+  font-weight: 500;
+  white-space: nowrap;
+  font-size: 0.88rem;
+  flex: 0 0 auto;
+}
+
+/* 12. Team --------------------------------------------------------------- */
+
+.team {
+  background: var(--ink);
+  color: var(--on-ink);
+}
+
+.team .lede {
+  color: var(--on-ink-2);
+}
+
+.team .note {
+  color: var(--on-ink-3);
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(228px, 1fr));
+  gap: 2rem;
+  margin-top: 3.5rem;
+}
+
+.card .frame {
+  background: rgba(250, 247, 242, 0.05);
+  border-color: rgba(250, 247, 242, 0.18);
+  color: rgba(250, 247, 242, 0.5);
+  aspect-ratio: 3 / 4;
+  margin-bottom: 1.1rem;
+}
+
+/* h2 on team.html (directly under the page h1), h3 in the index teaser. */
+.card h2,
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.005em;
+}
+
+.card-role {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-lt);
+}
+
+.card-book {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 0.6rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--on-ink-3);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(250, 247, 242, 0.3);
+}
+
+.card-book {
+  transition: color var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+
+/* 13. Reviews ------------------------------------------------------------ */
+
+.quotes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 3.5rem;
+}
+
+.quote {
+  border-top: 2px solid var(--gold);
+  padding-top: 1.6rem;
+  margin: 0;
+}
+
+.quote p {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  line-height: 1.45;
+  margin: 0 0 1.2rem;
+}
+
+.quote cite {
+  font-style: normal;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* 14. Gallery ------------------------------------------------------------ */
+
+.ig-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+/* 15. Reusable centered CTA row --------------------------------------------- */
+
+.center-cta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* 16. Booking ------------------------------------------------------------ */
+
+.book-wrap {
+  text-align: center;
+  max-width: 720px;
+}
+
+.book-wrap .lede {
+  margin: 1.6rem auto 2.6rem;
+}
+
+/* where a booking widget embed will live */
+.book-embed {
+  margin-top: 3rem;
+  padding: 2.5rem 1.5rem;
+  border: 1px dashed var(--line);
+  background: var(--paper-2);
+}
+
+/* 17. Visit -------------------------------------------------------------- */
+
+.visit {
+  background: var(--paper-2);
+}
+
+.info dl {
+  margin: 0;
+}
+
+.info dt {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-ink);
+  margin-top: 2rem;
+  font-weight: 500;
+}
+
+.info dt:first-child {
+  margin-top: 0;
+}
+
+.info dd {
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
+}
+
+.info dd a {
+  text-decoration: none;
+  border-bottom: 1px solid var(--gold-ink);
+}
+
+.hours {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  max-width: 320px;
+}
+
+.hours li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px dotted var(--line);
+  font-size: 0.94rem;
+}
+
+.hours li.closed {
+  color: var(--muted);
+}
+
+/* today's row, marked by js/main.js */
+.hours li[data-today] {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.hours li[data-today]::after {
+  content: "Today";
+  position: absolute;
+  left: -9999px;
+}
+
+.map {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  border: 1px solid var(--line);
+  filter: grayscale(1) contrast(1.05);
+}
+
+.addr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+/* 18. Footer ------------------------------------------------------------- */
+
+footer {
+  background: var(--ink-2);
+  color: var(--on-ink-3);
+  padding: 4rem 0 2.5rem;
+  font-size: 0.86rem;
+}
+
+.foot-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+footer a {
+  color: rgba(250, 247, 242, 0.75);
+  text-decoration: none;
+}
+
+footer a {
+  transition: color var(--dur) var(--ease-out);
+}
+
+footer .brand img {
+  width: 28px;
+  height: 28px;
+}
+
+footer .brand-name {
+  font-size: 1rem;
+  color: var(--on-ink);
+}
+
+.foot-h {
+  margin: 0 0 0.5rem;
+  color: var(--on-ink);
+  font-weight: 500;
+}
+
+.foot-about {
+  margin: 0.8rem 0 0;
+  max-width: 32ch;
+}
+
+.foot-addr {
+  margin: 0;
+}
+
+/* Also the no-JS fallback for page navigation on mobile, where the
+   disclosure panel needs script to open. */
+.foot-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.foot-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  font-size: 0.82rem;
+}
+
+.socials {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.socials a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.legal {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(250, 247, 242, 0.12);
+  font-size: 0.72rem;
+  color: rgba(250, 247, 242, 0.42);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* 19. Sticky mobile book/call bar ---------------------------------------- */
+
+.mobile-bar {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  /* The header Book button only hides once the sticky bottom bar takes over.
+     Hiding it at 900px instead left 701-900px with no persistent booking
+     affordance at all: the button was gone and the bar had not appeared. */
+  .nav-book {
+    display: none;
+  }
+
+  .mobile-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-bar);
+    background: var(--line);
+    /* clear the iOS home indicator */
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  .mobile-bar a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--bar-h);
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    text-align: center;
+    padding: 1rem 0.5rem;
+    font-size: 0.74rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+    touch-action: manipulation;
+  }
+
+  .mobile-bar a.primary {
+    background: var(--gold-deep);
+    color: #fff;
+  }
+
+  /* reserve room so the bar never covers content */
+  body {
+    padding-bottom: calc(var(--bar-h) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .hero {
+    min-height: auto;
+    padding: 72px 0;
+  }
+}
+
+/* small phones — 320px must not scroll sideways */
+@media (max-width: 380px) {
+  .wrap {
+    padding: 0 18px;
+  }
+
+  .hero-meta {
+    gap: 1.5rem;
+  }
+
+  .btn {
+    padding: 1rem 1.4rem;
+    font-size: 0.74rem;
+  }
+
+  .hero-cta .btn {
+    width: 100%;
+  }
+
+  .brand-name {
+    letter-spacing: 0.2em;
+    font-size: 1rem;
+  }
+}
+
+/* 20. Motion -------------------------------------------------------------
+
+   Rules this section follows:
+     - transform and opacity only, so everything runs off the main thread
+     - nothing over 300ms
+     - transitions, not keyframes, so a rapid toggle retargets instead of
+       restarting from zero
+     - exits are faster than enters
+     - ease-out for enters and exits; ease-in is never used
+     - hover is gated behind a real pointer, since on touch it fires on tap
+     - nothing above the fold animates, so the Book button is tappable on the
+       first paint
+   ------------------------------------------------------------------------ */
+
+/* --- page-to-page navigation -------------------------------------------- */
+/* Cross-document view transitions. This is a 5-page static site with no
+   client-side router, so without this every link click is a hard, instant
+   reload, the one thing on the site that reads as mechanical rather than
+   considered. Pure progressive enhancement: an unsupported browser ignores
+   the unknown at-rule entirely and navigates exactly as it always has, zero
+   regression risk, zero JS, zero build step.
+   Duration and easing are the same tokens used everywhere else (the hero
+   crossfade, scroll reveals) so this reads as the same authored moment
+   rather than a new one-off effect. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--dur-reveal);
+  animation-timing-function: var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* --- hover states, gated ------------------------------------------------ */
+/* Touch devices fire :hover on tap, which leaves buttons stuck in a hover
+   state after being pressed. Everything hover-only lives in here. */
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    background: var(--gold-deep);
+    border-color: var(--gold-deep);
+    color: #fff;
+  }
+
+  .btn--ghost:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+
+  .btn--gold:hover {
+    background: var(--paper);
+    border-color: var(--paper);
+    color: var(--ink);
+  }
+
+  .btn--on-ink:hover {
+    background: var(--on-ink);
+    border-color: var(--on-ink);
+    color: var(--ink);
+  }
+
+  .nav-links a:hover {
+    border-color: var(--gold-ink);
+    color: var(--gold-ink);
+  }
+
+  .card-book:hover {
+    color: var(--gold-lt);
+    border-color: var(--gold-lt);
+  }
+
+  footer a:hover {
+    color: var(--gold-lt);
+  }
+
+  .mobile-bar a:hover {
+    filter: brightness(1.12);
+  }
+}
+
+/* --- hero video crossfade ---------------------------------------------- */
+/* The poster is a frame of the same footage, so the video fades in over it
+   rather than replacing it. Nothing appears from nothing. */
+.hero-media video {
+  opacity: 0;
+  transition: opacity var(--dur-reveal) var(--ease-out);
+}
+
+.hero-media video[data-ready] {
+  opacity: 1;
+}
+
+/* --- mobile nav disclosure --------------------------------------------- */
+@media (max-width: 900px) {
+  .nav-panel {
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+
+  /* enter is slightly slower than exit; the exit should feel like a dismissal */
+  .nav-panel[data-open] {
+    opacity: 1;
+    transform: translateY(0);
+    transition-duration: var(--dur);
+  }
+
+  /* the links cascade in behind the panel */
+  .nav-panel[data-open] .nav-links li,
+  .nav-panel[data-open] > .btn {
+    animation: nav-item var(--dur) var(--ease-out) both;
+  }
+
+  .nav-panel[data-open] .nav-links li:nth-child(1) { animation-delay: 30ms; }
+  .nav-panel[data-open] .nav-links li:nth-child(2) { animation-delay: 60ms; }
+  .nav-panel[data-open] .nav-links li:nth-child(3) { animation-delay: 90ms; }
+  .nav-panel[data-open] .nav-links li:nth-child(4) { animation-delay: 120ms; }
+  .nav-panel[data-open] > .btn { animation-delay: 150ms; }
+
+  @keyframes nav-item {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+}
+
+.nav-toggle {
+  transition: transform var(--dur-press) var(--ease-out),
+    color var(--dur) var(--ease-out);
+}
+
+/* --- scroll reveals ---------------------------------------------------- */
+/* The hidden state is applied only when js/main.js has added .reveal-ready to
+   <html>, so without JS every section is simply visible. The hero, header,
+   proof bar and both booking CTAs are never given [data-reveal]. */
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+[data-reveal] {
+  transition: opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out);
+}
+
+.reveal-ready [data-reveal][data-shown] {
+  opacity: 1;
+  transform: none;
+}
+
+/* staggered children within a revealed group */
+.reveal-ready [data-reveal-group] > * {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out);
+}
+
+.reveal-ready [data-reveal-group][data-shown] > * {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-ready [data-reveal-group][data-shown] > *:nth-child(1) { transition-delay: 0ms; }
+.reveal-ready [data-reveal-group][data-shown] > *:nth-child(2) { transition-delay: 45ms; }
+.reveal-ready [data-reveal-group][data-shown] > *:nth-child(3) { transition-delay: 90ms; }
+.reveal-ready [data-reveal-group][data-shown] > *:nth-child(4) { transition-delay: 135ms; }
+.reveal-ready [data-reveal-group][data-shown] > *:nth-child(5) { transition-delay: 180ms; }
+.reveal-ready [data-reveal-group][data-shown] > *:nth-child(6) { transition-delay: 180ms; }
+
+/* --- scroll-driven reveal (progressive enhancement) ---------------------- */
+/* The IntersectionObserver system above reveals with a fixed 300ms transition
+   once an element crosses a trigger line: correct, but it reads as a discrete
+   pop rather than content genuinely arriving with the scroll gesture.
+   animation-timeline: view() ties opacity/transform continuously to the
+   element's own scroll position instead, no JS needed, no scroll listener.
+   Each grid child tracks its own position, so a row further down the page
+   naturally reveals a beat after the row above it, a stagger that falls out
+   of the scroll geometry itself rather than an authored delay table.
+   Falls through completely on browsers without support: the @supports block
+   simply never matches, and the IntersectionObserver behavior above is
+   untouched and still runs, so there is no regression either way. */
+@supports (animation-timeline: view()) {
+  @keyframes reveal-in {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .reveal-ready [data-reveal],
+  .reveal-ready [data-reveal-group] > * {
+    transition: none;
+    animation: reveal-in linear both;
+    animation-timeline: view();
+    /* full entry phase: first pixel visible through fully entered. Naturally
+       proportional to the element's own height, so it plays out across an
+       actual scroll distance instead of resolving within a couple of wheel
+       ticks. entry-0%/cover-35% (the first version of this rule) completed
+       too fast at normal scroll speed to register as anything happening. */
+    animation-range: entry;
+  }
+}
+
+/* --- reduced motion ---------------------------------------------------- */
+/* Fewer and gentler, not zero. Colour and opacity transitions stay because
+   they aid comprehension; everything positional is removed, and revealed
+   content is shown immediately rather than waiting on a scroll. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal-ready [data-reveal],
+  .reveal-ready [data-reveal-group] > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+
+  .nav-panel,
+  .nav-panel[data-open] {
+    transform: none;
+    transition: opacity var(--dur-fast) var(--ease-out);
+  }
+
+  .nav-panel[data-open] .nav-links li,
+  .nav-panel[data-open] > .btn {
+    animation: none;
+  }
+
+  .btn:active,
+  .mobile-bar a:active,
+  .nav-toggle:active,
+  .card-book:active {
+    transform: none;
+  }
+
+  .hero-media video {
+    transition: none;
+    opacity: 1;
+  }
+}
+
+/* 21. Demo mode -----------------------------------------------------------
+   Pitch/preview only. NOT active by default and never on a normal page load.
+
+   Turn on by loading any page with `?demo` in the URL; turn off with
+   `?demo=0`. The flag is stored in sessionStorage by a small inline script
+   in each page's <head>, so it survives navigation between pages and applies
+   before first paint (no flash of amber chips).
+
+   What it does: hides the amber todo chips and the internal handoff notes
+   marked `data-internal`, and turns the dashed "unfinished" photo frames
+   into plain tonal panels. A prospect sees a clean site rather than build
+   scaffolding, without a single fabricated stylist name, price or review.
+
+   Delete this section and the inline scripts once the real content lands. */
+
+.demo [data-internal],
+.demo .todo {
+  display: none;
+}
+
+/* the dashed frame is deliberately "unfinished" in normal use; in demo mode
+   it becomes a quiet tonal panel that reads as a photo yet to be dropped in */
+.demo .frame {
+  border-style: solid;
+  /* a quiet solid hairline, not the dashed "unfinished" rule: it defines the
+     slot as a deliberate image well rather than a missing asset. Without it
+     the panels disappear entirely against --paper-2 sections. */
+  border-color: var(--line);
+  background: linear-gradient(160deg, var(--paper-2), var(--paper));
+  color: transparent;
+  font-size: 0;
+}
+
+/* the three large frames get a real photo from the hero footage, so the
+   pages that carry the most weight in a pitch are not empty */
+.demo .frame--wide {
+  background-image: url('../assets/img/og-home.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* a live Instagram feed still wins over the tonal panels if one is connected */
+.demo .frame--filled {
+  background-image: none;
+}
+
+/* On the dark team sections the paper-toned panel above reads as a glaring
+   white hole. Use an on-ink tone there instead so the empty portrait slots
+   sit quietly inside the dark band. */
+.demo .team .frame {
+  background: linear-gradient(160deg, var(--ink-2), var(--ink));
+  border-color: var(--on-ink-line);
+}
+
+/* An empty bordered box under the booking buttons looks like a broken embed
+   once its explanatory note is hidden. Drop it entirely until a real widget
+   is pasted in; the Book and Call buttons above it still carry the section. */
+.demo .book-embed {
+  display: none;
+}

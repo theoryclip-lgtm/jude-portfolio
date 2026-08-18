@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build output — regenerate with `node deploy-build.js` / `node build.js`
+dist/
+jude-portfolio-standalone.html
+
+# Local captures and scratch
+shots/
+showcase/
+_backup-*/
+*.log
+
+# Tooling caches
+.impeccable/

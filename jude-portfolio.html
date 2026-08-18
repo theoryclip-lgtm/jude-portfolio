@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jude — Websites for Local Businesses | Orange County</title>
+<meta name="description" content="I design and build websites for local businesses in Orange County — dentists, salons, restaurants, contractors. Free homepage mockup before you pay anything. Call (714) 510-6198.">
+
+<!-- __SITE_URL__ is rewritten by deploy-build.js. Social cards need absolute URLs. -->
+<link rel="canonical" href="__SITE_URL__/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jude — Orange County">
+<meta property="og:title" content="Websites that turn searches into booked appointments.">
+<meta property="og:description" content="Design, build, hosting and upkeep by one person. Free homepage mockup first — you see it live before paying a dollar.">
+<meta property="og:url" content="__SITE_URL__/">
+<meta property="og:image" content="__SITE_URL__/assets/og-jude.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jude — websites that turn searches into booked appointments. Orange County, CA.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Websites that turn searches into booked appointments.">
+<meta name="twitter:description" content="Websites for Orange County local businesses. Free homepage mockup first.">
+<meta name="twitter:image" content="__SITE_URL__/assets/og-jude.png">
+
+<link rel="icon" href="assets/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/icon-512.png" sizes="512x512" type="image/png">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta name="theme-color" content="#1B1A17">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Jude — Websites for Local Businesses",
+  "description": "Website design, build, hosting and maintenance for local businesses in Orange County, CA.",
+  "url": "__SITE_URL__/",
+  "telephone": "+1-714-510-6198",
+  "email": "studiojudewebdev@gmail.com",
+  "image": "__SITE_URL__/assets/og-jude.png",
+  "priceRange": "$",
+  "areaServed": [
+    {"@type":"City","name":"Costa Mesa"},
+    {"@type":"City","name":"Newport Beach"},
+    {"@type":"City","name":"Irvine"},
+    {"@type":"City","name":"Huntington Beach"},
+    {"@type":"AdministrativeArea","name":"Orange County"}
+  ],
+  "address": {"@type":"PostalAddress","addressRegion":"CA","addressCountry":"US","addressLocality":"Orange County"}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600&family=Lora:ital,wght@0,400;0,500;1,400&family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --taupe:#C7C5BF;
+    --cream:#EDEBE4;
+    --cream-warm:#EDEBE6;
+    --ink:#1B1A17;
+    --ink-soft:#22211E;
+    --stone:#56534C;
+    --stone-light:#A5A199;
+    --stone-mid:#3E3C36;
+    --gold:#B79B6A;
+    --line:rgba(27,26,23,.14);
+    --line-light:rgba(237,235,228,.16);
+    --ease:cubic-bezier(.6,.01,.05,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Archivo',system-ui,sans-serif;
+    background:var(--taupe);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* grain overlay */
+  body::after{
+    content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;
+    opacity:.05;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .cursive{font-family:'Monsieur La Doulaise',cursive;font-weight:400}
+  .mono{font-family:'Archivo';letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+
+  /* ---------- INTRO SPLASH ---------- */
+  #intro{
+    position:fixed;inset:0;z-index:1000;background:var(--taupe);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    transition:opacity 1s var(--ease),visibility 1s var(--ease);
+  }
+  #intro.done{opacity:0;visibility:hidden}
+  #intro .welcome{
+    font-family:'Monsieur La Doulaise',cursive;
+    font-size:clamp(4.5rem,16vw,13rem);color:var(--ink);line-height:.9;
+    opacity:0;transform:translateY(18px);
+    animation:welcomeIn 1.5s var(--ease) .25s forwards;
+  }
+  #intro .sub{
+    margin-top:1.4rem;font-size:.72rem;color:var(--stone);
+    letter-spacing:.4em;text-transform:uppercase;font-weight:600;
+    opacity:0;animation:fadeIn 1s ease 1.1s forwards;
+  }
+  @keyframes welcomeIn{
+    0%{opacity:0;transform:translateY(22px)}
+    100%{opacity:1;transform:translateY(0)}
+  }
+  @keyframes fadeIn{to{opacity:1}}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:800;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:1.5rem clamp(1.4rem,5vw,4.5rem);
+    mix-blend-mode:difference;
+  }
+  nav .brand{font-family:'Monsieur La Doulaise',cursive;font-size:2.4rem;color:#fff;line-height:1;letter-spacing:.02em}
+  nav .links{display:flex;gap:2.4rem}
+  nav .links a{
+    color:#fff;text-decoration:none;font-size:.72rem;font-weight:600;
+    letter-spacing:.2em;text-transform:uppercase;position:relative;
+  }
+  nav .links a::after{
+    content:"";position:absolute;left:0;bottom:-5px;height:1px;width:0;background:#fff;
+    transition:width .4s var(--ease);
+  }
+  nav .links a:hover::after{width:100%}
+  @media(max-width:640px){nav .links{display:none}}
+
+  /* ---------- SHELL / SECTIONS ---------- */
+  section{position:relative}
+  .pad{padding:clamp(4.5rem,10vw,9rem) clamp(1.4rem,5vw,4.5rem)}
+  .eyebrow{display:flex;align-items:center;gap:1rem;margin-bottom:clamp(2.2rem,5vw,3.8rem)}
+  .eyebrow .rule{width:44px;height:2px;background:currentColor;opacity:.55}
+  .eyebrow .num{font-weight:800;font-size:.82rem;letter-spacing:.05em}
+  .eyebrow .label{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;font-weight:600;color:var(--stone-light)}
+  .eyebrow .accent{font-family:'Monsieur La Doulaise',cursive;font-size:1.7rem;margin-left:.3rem}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- HERO ---------- */
+  #hero{
+    background:var(--ink);color:var(--cream);min-height:100vh;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:clamp(6rem,12vw,8rem) clamp(1.4rem,5vw,4.5rem) 4rem;
+    position:relative;overflow:hidden;
+  }
+  #hero .ghost{
+    position:absolute;right:-4%;bottom:-6%;font-family:'Monsieur La Doulaise',cursive;
+    font-size:clamp(9rem,26vw,26rem);color:var(--cream);opacity:.05;
+    white-space:nowrap;pointer-events:none;line-height:.8;
+  }
+  #hero .tag{
+    display:inline-flex;align-items:center;gap:.7rem;align-self:flex-start;
+    border:1px solid var(--line-light);padding:.6rem 1rem;margin-bottom:2.4rem;
+    font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--stone-light);
+  }
+  #hero .tag::before{content:"";width:7px;height:7px;background:var(--cream)}
+  #hero h1{
+    font-size:clamp(2.8rem,8.5vw,7.5rem);font-weight:800;line-height:.94;
+    letter-spacing:-.02em;text-transform:uppercase;max-width:14ch;
+  }
+  #hero h1 .script{
+    font-family:'Monsieur La Doulaise',cursive;font-weight:400;text-transform:none;
+    font-size:1.15em;letter-spacing:0;display:inline-block;line-height:.6;
+    padding:0 .1em;color:var(--cream);
+  }
+  #hero .divider{width:120px;height:2px;background:var(--stone);margin:2.6rem 0 1.6rem}
+  #hero .lede{font-size:clamp(1rem,2vw,1.28rem);color:var(--stone-light);max-width:34ch;font-weight:400}
+  #hero .loc{margin-top:.7rem;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--stone);font-weight:600}
+  #hero .cta-row{display:flex;gap:1rem;margin-top:2.8rem;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:.6rem;padding:1rem 1.6rem;
+    font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;
+    text-decoration:none;border:1px solid var(--cream);transition:.35s var(--ease);cursor:pointer;
+  }
+  .btn.solid{background:var(--cream);color:var(--ink)}
+  .btn.solid:hover{background:transparent;color:var(--cream)}
+  .btn.ghost{color:var(--cream);background:transparent}
+  .btn.ghost:hover{background:var(--cream);color:var(--ink)}
+  #hero .scroll{position:absolute;bottom:1.6rem;left:50%;transform:translateX(-50%);font-size:.62rem;letter-spacing:.4em;text-transform:uppercase;color:var(--stone);font-weight:600}
+
+  /* ---------- 01 INTENT ---------- */
+  #intent{background:var(--cream);color:var(--ink)}
+  #intent .big{
+    font-size:clamp(2rem,6vw,4.6rem);font-weight:800;line-height:1.02;letter-spacing:-.02em;
+    text-transform:uppercase;max-width:20ch;
+  }
+  #intent .body{
+    margin-top:2rem;font-size:clamp(1rem,1.7vw,1.25rem);color:var(--stone);max-width:52ch;line-height:1.55;font-weight:400;
+  }
+  #intent .sign{font-family:'Monsieur La Doulaise',cursive;font-size:clamp(2rem,5vw,3.4rem);margin-top:1.6rem;color:var(--ink)}
+
+  /* ---------- 02 WHO I BUILD FOR ---------- */
+  #who{background:var(--taupe);color:var(--ink)}
+  .rowlist{border-top:1px solid var(--line)}
+  .row{
+    display:flex;align-items:center;gap:1.4rem;padding:clamp(1.3rem,3vw,2rem) 0;
+    border-bottom:1px solid var(--line);position:relative;overflow:hidden;cursor:default;
+  }
+  .row .idx{font-size:.72rem;font-weight:700;color:var(--stone);width:2rem;flex-shrink:0}
+  .row .name{
+    font-size:clamp(1.6rem,5.5vw,3.4rem);font-weight:800;text-transform:uppercase;letter-spacing:-.01em;
+    transition:transform .5s var(--ease),color .5s var(--ease);
+  }
+  .row .arrow{margin-left:auto;font-size:1.3rem;transition:transform .5s var(--ease);color:var(--stone)}
+  .row:hover .name{transform:translateX(1.2rem)}
+  .row:hover .arrow{transform:translateX(-.5rem);color:var(--ink)}
+  .row::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:0;background:var(--ink);z-index:-0;
+    opacity:.04;transition:width .5s var(--ease);
+  }
+  .row:hover::before{width:100%}
+
+  /* ---------- 03 THE WORK ---------- */
+  #work{background:var(--cream);color:var(--ink)}
+  .project{margin-bottom:clamp(3.5rem,8vw,6rem)}
+  .project:last-child{margin-bottom:0}
+  .project .cat{display:flex;gap:1rem;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:.9rem}
+  .project .cat .muted{color:var(--stone-light)}
+  .project h3{font-size:clamp(2rem,6vw,4rem);font-weight:800;text-transform:uppercase;letter-spacing:-.02em;line-height:.98}
+  .project .desc{margin-top:.8rem;font-size:clamp(.95rem,1.6vw,1.15rem);color:var(--stone);max-width:46ch;font-weight:400}
+  .project .view{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.2rem;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:3px}
+  .project .view:hover{gap:1rem}
+
+  /* browser mockup */
+  .browser{margin-top:2rem;border:1px solid var(--line);background:#fff;box-shadow:0 30px 60px -30px rgba(27,26,23,.4)}
+  .browser .bar{display:flex;align-items:center;gap:.5rem;padding:.7rem 1rem;background:var(--cream-warm);border-bottom:1px solid var(--line)}
+  .browser .dot{width:10px;height:10px;border-radius:50%;background:var(--stone-light);opacity:.6}
+  .browser .url{margin-left:.6rem;font-size:.7rem;color:var(--stone);background:rgba(0,0,0,.04);padding:.25rem .8rem;font-weight:500;letter-spacing:.02em}
+  .browser .frame{aspect-ratio:16/10;position:relative;overflow:hidden}
+
+  /* live embedded preview of a real build */
+  .mock-live{position:absolute;inset:0;overflow:hidden;background:#fff}
+  .mock-live iframe{position:absolute;top:0;left:0;width:333%;height:333%;transform:scale(.3);transform-origin:0 0;border:0;pointer-events:none}
+  .mock-live .liveflag{position:absolute;top:.6rem;right:.6rem;z-index:2;background:rgba(27,26,23,.82);color:#fff;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:.35rem .6rem;pointer-events:none}
+
+  /* ---------- 04 WHAT YOU GET ---------- */
+  #get{background:var(--ink);color:var(--cream)}
+  .get-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0;border-top:1px solid var(--line-light)}
+  .get-cell{padding:clamp(2rem,4vw,3rem) clamp(1.4rem,3vw,2.4rem) clamp(2rem,4vw,3rem) 0;border-bottom:1px solid var(--line-light)}
+  .get-cell .gi{font-size:.72rem;font-weight:800;color:var(--stone-light);margin-bottom:1rem}
+  .get-cell p{font-size:clamp(1.05rem,1.8vw,1.35rem);font-weight:500;line-height:1.35}
+  .get-cell p b{font-weight:800}
+
+  /* ---------- 05 HOW IT WORKS ---------- */
+  #how{background:var(--cream);color:var(--ink)}
+  #how .sign{font-family:'Monsieur La Doulaise',cursive;font-size:2rem;margin-left:.4rem}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(1.5rem,3vw,2.5rem)}
+  .step{border-top:2px solid var(--ink);padding-top:1.4rem}
+  .step .n{font-size:clamp(3rem,7vw,5.5rem);font-weight:900;line-height:.8;letter-spacing:-.04em}
+  .step p{margin-top:1.2rem;font-size:clamp(1.05rem,1.8vw,1.4rem);font-weight:600;line-height:1.25;max-width:16ch}
+  .step p .free{background:var(--ink);color:var(--cream);padding:0 .3em}
+
+  /* ---------- 06 ABOUT ---------- */
+  #about{background:var(--taupe);color:var(--ink)}
+  #about .lead{font-family:'Monsieur La Doulaise',cursive;font-size:clamp(3rem,9vw,6rem);line-height:.85;margin-bottom:1.8rem}
+  #about .body{font-size:clamp(1.05rem,1.9vw,1.4rem);color:var(--stone-mid);max-width:56ch;line-height:1.5;font-weight:400}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1.5rem;margin-top:clamp(2.5rem,5vw,4rem);border-top:1px solid var(--line);padding-top:2.5rem}
+  .stat .v{font-size:clamp(2.4rem,5vw,3.6rem);font-weight:900;line-height:1;letter-spacing:-.03em}
+  .stat .k{margin-top:.5rem;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--stone);font-weight:600}
+
+  /* ---------- 07 FAQ ---------- */
+  #faq{background:var(--cream);color:var(--ink)}
+  .q{border-bottom:1px solid var(--line)}
+  .q:first-of-type{border-top:1px solid var(--line)}
+  .q button{
+    width:100%;background:none;border:none;cursor:pointer;text-align:left;
+    display:flex;align-items:center;gap:1.2rem;padding:clamp(1.3rem,3vw,1.9rem) 0;color:var(--ink);font-family:inherit;
+  }
+  .q .qi{font-size:.72rem;font-weight:700;color:var(--stone);flex-shrink:0}
+  .q .qt{font-size:clamp(1.05rem,2.4vw,1.7rem);font-weight:700;flex:1;letter-spacing:-.01em}
+  .q .qx{font-size:1.6rem;font-weight:400;transition:transform .4s var(--ease);flex-shrink:0}
+  .q.open .qx{transform:rotate(45deg)}
+  .q .qa{max-height:0;overflow:hidden;transition:max-height .5s var(--ease)}
+  .q .qa p{padding:0 0 clamp(1.3rem,3vw,1.9rem) 3rem;font-size:clamp(.95rem,1.6vw,1.1rem);color:var(--stone);max-width:60ch;line-height:1.6;font-weight:400}
+  @media(max-width:600px){.q .qa p{padding-left:0}}
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  #contact{background:var(--ink);color:var(--cream);text-align:center;padding:clamp(5rem,12vw,10rem) clamp(1.4rem,5vw,4.5rem)}
+  #contact .pre{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--stone-light);font-weight:600;margin-bottom:1.6rem}
+  #contact h2{font-size:clamp(2.4rem,9vw,7rem);font-weight:800;text-transform:uppercase;line-height:.92;letter-spacing:-.02em}
+  #contact h2 .script{font-family:'Monsieur La Doulaise',cursive;font-weight:400;text-transform:none;font-size:1.1em}
+  #contact .email{display:inline-block;margin-top:2.4rem;font-size:clamp(1rem,2.4vw,1.6rem);color:var(--cream);text-decoration:none;border-bottom:1px solid var(--stone);padding-bottom:.4rem;font-weight:500;transition:.35s var(--ease)}
+  #contact .email:hover{border-color:var(--cream);letter-spacing:.02em}
+  #contact .actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2.8rem}
+  #contact .phone{
+    display:inline-flex;align-items:center;gap:.7rem;padding:1.15rem 2rem;
+    background:var(--cream);color:var(--ink);text-decoration:none;
+    font-size:clamp(.95rem,2.2vw,1.15rem);letter-spacing:.06em;font-weight:800;
+    border:1px solid var(--cream);transition:.35s var(--ease);
+  }
+  #contact .phone:hover{background:transparent;color:var(--cream)}
+  #contact .phone svg{width:1em;height:1em;flex:none}
+  #contact .mailbtn{
+    display:inline-flex;align-items:center;gap:.7rem;padding:1.15rem 2rem;
+    background:transparent;color:var(--cream);text-decoration:none;
+    font-size:clamp(.95rem,2.2vw,1.15rem);letter-spacing:.06em;font-weight:600;
+    border:1px solid var(--stone);transition:.35s var(--ease);
+  }
+  #contact .mailbtn:hover{border-color:var(--cream)}
+  #contact .fineprint{margin-top:1.8rem;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--stone-light);font-weight:600}
+
+  /* sticky mobile call bar — the pitch lands on a phone, so make calling one tap */
+  .callbar{
+    position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;
+    background:var(--ink);border-top:1px solid var(--line-light);
+    padding:.7rem .9rem calc(.7rem + env(safe-area-inset-bottom));
+    gap:.6rem;transform:translateY(110%);transition:transform .4s var(--ease);
+  }
+  .callbar.up{transform:translateY(0)}
+  .callbar a{
+    flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+    padding:.95rem .6rem;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+    font-weight:800;text-decoration:none;border:1px solid var(--cream);
+  }
+  .callbar .c{background:var(--cream);color:var(--ink)}
+  .callbar .e{background:transparent;color:var(--cream);border-color:var(--stone)}
+  .callbar svg{width:1.05em;height:1.05em;flex:none}
+  @media(max-width:760px){
+    .callbar{display:flex}
+    footer{padding-bottom:5.4rem}
+  }
+  footer{background:var(--ink);color:var(--stone);padding:2rem clamp(1.4rem,5vw,4.5rem);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;border-top:1px solid var(--line-light)}
+  footer .brand{font-family:'Monsieur La Doulaise',cursive;font-size:1.8rem;color:var(--cream)}
+  footer .fine{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+    #intro{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="welcome">Welcome</div>
+  <div class="sub">Jude — Orange County</div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="brand">Jude</a>
+  <div class="links">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="ghost">Orange County</div>
+  <span class="tag">Free homepage mockup — before you pay anything</span>
+  <h1>Websites that turn <span class="script">searches</span> into booked appointments.</h1>
+  <div class="divider"></div>
+  <p class="lede">Designed, built, and maintained by one person. Me.</p>
+  <p class="loc">Orange County, CA</p>
+  <div class="cta-row">
+    <a href="#work" class="btn solid">See the work ↓</a>
+    <a href="tel:+17145106198" class="btn ghost">Call (714) 510-6198</a>
+  </div>
+  <div class="scroll">Scroll</div>
+</section>
+
+<!-- 01 INTENT -->
+<section id="intent" class="pad">
+  <div class="eyebrow reveal"><span class="rule"></span><span class="num">01</span><span class="label">Intent</span></div>
+  <h2 class="big reveal">Not just a web designer.</h2>
+  <p class="body reveal">I design websites specifically for local businesses — built to bring in customers, bookings, and calls. Every button, every word, every layout decision is there to grow the thing you own.</p>
+  <p class="sign reveal">everything with intention.</p>
+</section>
+
+<!-- 02 WHO I BUILD FOR -->
+<section id="who" class="pad">
+  <div class="eyebrow reveal"><span class="rule"></span><span class="num">02</span><span class="label">Who I build for</span></div>
+  <div class="rowlist reveal">
+    <div class="row"><span class="idx">01</span><span class="name">Dentists</span><span class="arrow">→</span></div>
+    <div class="row"><span class="idx">02</span><span class="name">Med Spas</span><span class="arrow">→</span></div>
+    <div class="row"><span class="idx">03</span><span class="name">HVAC</span><span class="arrow">→</span></div>
+    <div class="row"><span class="idx">04</span><span class="name">Injury Attorneys</span><span class="arrow">→</span></div>
+    <div class="row"><span class="idx">05</span><span class="name">Restaurants</span><span class="arrow">→</span></div>
+    <div class="row"><span class="idx">06</span><span class="name">Nail Salons</span><span class="arrow">→</span></div>
+  </div>
+</section>
+
+<!-- 03 THE WORK -->
+<section id="work" class="pad">
+  <div class="eyebrow reveal"><span class="rule"></span><span class="num">03</span><span class="label">The work</span><span class="accent">selected</span></div>
+
+  <div class="project reveal">
+    <div class="cat"><span>Hair Salon</span><span class="muted">Client build</span></div>
+    <h3>Crew Salon</h3>
+    <p class="desc">Thirty years on Randolph Ave, sold the way they actually talk — great hair, honestly. A muted hero film over the chair, the whole price list published in the open instead of hidden behind a phone call, and booking by stylist rather than by salon, because regulars book a person.</p>
+    <a href="crew-salon/index.html" class="view" target="_blank" rel="noopener">View live site →</a>
+    <div class="browser">
+      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">crewsalon.com</span></div>
+      <div class="frame">
+        <div class="mock-live">
+          <span class="liveflag">Live preview</span>
+          <iframe src="crew-salon/index.html" title="Crew Salon — live preview" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="project reveal">
+    <div class="cat"><span>Fine Dining</span><span class="muted">Concept build</span></div>
+    <h3>Marisol</h3>
+    <p class="desc">Coastal tasting menu in Newport. A Didone headline set at 14vw over the room, polaroids pinned across the hero, and the raw bar flipped to cream so three thousand pixels of candlelit dark has somewhere to breathe.</p>
+    <a href="marisol/index.html" class="view" target="_blank" rel="noopener">View live site →</a>
+    <div class="browser">
+      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">marisolnb.com</span></div>
+      <div class="frame">
+        <div class="mock-live">
+          <span class="liveflag">Live preview</span>
+          <iframe src="marisol/index.html" title="Marisol — live preview" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="project reveal">
+    <div class="cat"><span>Nail Salon</span><span class="muted">Concept build</span></div>
+    <h3>Nailed It Studio</h3>
+    <p class="desc">Health-first nail care — treatments, prices, and booking in two taps.</p>
+    <a href="nailed-it-studio/index.html" class="view" target="_blank" rel="noopener">View live site →</a>
+    <div class="browser">
+      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">naileditstudio.com</span></div>
+      <div class="frame">
+        <div class="mock-live">
+          <span class="liveflag">Live preview</span>
+          <iframe src="nailed-it-studio/index.html" title="Nailed It Studio — live preview" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 WHAT YOU GET -->
+<section id="get" class="pad">
+  <div class="eyebrow reveal"><span class="rule"></span><span class="num">04</span><span class="label">What you get</span></div>
+  <div class="get-grid reveal">
+    <div class="get-cell"><div class="gi">01</div><p>Built <b>mobile-first</b> — tap-to-call, one-thumb booking.</p></div>
+    <div class="get-cell"><div class="gi">02</div><p><b>Booking &amp; payments embedded</b> — Square, OpenTable, Booksy, whatever you already use.</p></div>
+    <div class="get-cell"><div class="gi">03</div><p>I handle <b>everything monthly</b> — hosting, edits, updates. You never touch it.</p></div>
+  </div>
+</section>
+
+<!-- 05 HOW IT WORKS -->
+<section id="how" class="pad">
+  <div class="eyebrow reveal"><span class="rule"></span><span class="num">05</span><span class="label">How it works</span><span class="sign">simple.</span></div>
+  <div class="steps reveal">
+    <div class="step"><div class="n">1</div><p>I redesign your homepage. <span class="free">Free.</span></p></div>
+    <div class="step"><div class="n">2</div><p>You see it live before paying a dollar.</p></div>
+    <div class="step"><div class="n">3</div><p>I build and maintain the whole thing.</p></div>
+  </div>
+</section>
+
+<!-- 06 ABOUT -->
+<section id="about" class="pad">
+  <div class="eyebrow reveal"><span class="rule"></span><span class="num">06</span><span class="label">About</span></div>
+  <div class="lead reveal">just me.</div>
+  <p class="body reveal">I'm Jude. I'm 19, based in Orange County, and I've been building things online since I was old enough to get ignored in cold emails. I do the design, the code, the hosting, and the upkeep — no agency, no middlemen, no waiting a week for a text back.</p>
+  <div class="stats reveal">
+    <div class="stat"><div class="v">19</div><div class="k">Years old</div></div>
+    <div class="stat"><div class="v">OC</div><div class="k">Home base</div></div>
+    <div class="stat"><div class="v">1</div><div class="k">Person, start to finish</div></div>
+    <div class="stat"><div class="v">0</div><div class="k">Middlemen</div></div>
+  </div>
+</section>
+
+<!-- 07 FAQ -->
+<section id="faq" class="pad">
+  <div class="eyebrow reveal"><span class="rule"></span><span class="num">07</span><span class="label">Frequently asked questions</span></div>
+  <div class="reveal">
+    <div class="q">
+      <button><span class="qi">01</span><span class="qt">Do I need a website if I already have Instagram?</span><span class="qx">+</span></button>
+      <div class="qa"><p>Instagram shows personality and updates, but a website gives customers one clear place to see your services, check your hours, find your location, and book. It makes the business look established — and unlike a feed, it works for you while you sleep.</p></div>
+    </div>
+    <div class="q">
+      <button><span class="qi">02</span><span class="qt">What does it cost?</span><span class="qx">+</span></button>
+      <div class="qa"><p>You see a redesigned homepage before you pay anything. If you want it live, it's a flat monthly rate that covers the build, hosting, and every edit after. No setup fee, no surprise invoices, cancel whenever.</p></div>
+    </div>
+    <div class="q">
+      <button><span class="qi">03</span><span class="qt">How long does it take?</span><span class="qx">+</span></button>
+      <div class="qa"><p>The free mockup lands in a few days. Once you approve it, a full site is usually live within a week — because it's just me, there's no queue and no handoffs.</p></div>
+    </div>
+    <div class="q">
+      <button><span class="qi">04</span><span class="qt">What if I already have a website?</span><span class="qx">+</span></button>
+      <div class="qa"><p>Even better — I'll rebuild it. Most local sites are slow, hard to book on, or invisible on a phone. I'll show you the new version first, side by side, and you decide.</p></div>
+    </div>
+    <div class="q">
+      <button><span class="qi">05</span><span class="qt">Do you only work in Orange County?</span><span class="qx">+</span></button>
+      <div class="qa"><p>That's home base, but the whole thing runs online — design, edits, updates, all remote. If you run a local business anywhere, I can build for you.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="pre">Let's build it</div>
+  <h2>Get the <span class="script">free</span> mockup.</h2>
+  <div class="actions">
+    <a href="tel:+17145106198" class="phone">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      (714) 510-6198
+    </a>
+    <a href="mailto:studiojudewebdev@gmail.com" class="mailbtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Email me
+    </a>
+  </div>
+  <p class="fineprint">Call or text — Orange County</p>
+</section>
+
+<div class="callbar" id="callbar" aria-label="Contact">
+  <a class="c" href="tel:+17145106198">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    Call
+  </a>
+  <a class="e" href="mailto:studiojudewebdev@gmail.com">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    Email
+  </a>
+</div>
+
+<footer>
+  <span class="brand">Jude</span>
+  <span class="fine">Orange County, CA — © 2026</span>
+</footer>
+
+<script>
+  // intro
+  window.addEventListener('load',()=>{
+    setTimeout(()=>document.getElementById('intro').classList.add('done'),2600);
+  });
+  // reveal on scroll
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+  },{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  // sticky call bar: only after the hero, and never over the contact section
+  (function(){
+    const bar=document.getElementById('callbar');
+    const hero=document.getElementById('hero');
+    const contact=document.getElementById('contact');
+    if(!bar||!hero||!contact) return;
+    let pastHero=false, atContact=false;
+    const sync=()=>bar.classList.toggle('up', pastHero && !atContact);
+    new IntersectionObserver(([e])=>{pastHero=!e.isIntersecting;sync()},{threshold:0})
+      .observe(hero);
+    new IntersectionObserver(([e])=>{atContact=e.isIntersecting;sync()},{threshold:.2})
+      .observe(contact);
+  })();
+  // faq
+  document.querySelectorAll('.q button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const q=b.parentElement,a=q.querySelector('.qa');
+      const open=q.classList.contains('open');
+      document.querySelectorAll('.q').forEach(x=>{x.classList.remove('open');x.querySelector('.qa').style.maxHeight=null});
+      if(!open){q.classList.add('open');a.style.maxHeight=a.scrollHeight+'px'}
+    });
+  });
+</script>
+</body>
+</html>
