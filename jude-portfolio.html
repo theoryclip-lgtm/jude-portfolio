@@ -163,7 +163,11 @@
   }
   #hero .tag::before{content:"";width:7px;height:7px;background:var(--cream)}
   #hero h1{
-    font-size:clamp(2.8rem,8.5vw,7.5rem);font-weight:800;line-height:.94;
+    /* The floor governs below ~530px, which is where the longest word,
+       APPOINTMENTS., stops fitting: it needs about 8.7x the font size and a
+       phone only offers viewport minus padding. Lowering the floor and steepening
+       the vw term keeps it on one line down to a 320px screen. */
+    font-size:clamp(1.95rem,9.6vw,7.5rem);font-weight:800;line-height:.94;
     letter-spacing:-.02em;text-transform:uppercase;max-width:14ch;
   }
   #hero h1 .script{
