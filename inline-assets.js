@@ -11,17 +11,23 @@
  * What gets folded in: stylesheets (and the url() targets inside them), scripts,
  * <img> sources, and the hero poster referenced by data-poster.
  *
- * What deliberately does not: anything over MAX_FILE. That is almost entirely
- * video — Crew's hero.mp4 alone is 1.5 MB and Marisol ships two more. Base64
- * inflates by a third, so inlining them would push the single file past 30 MB to
- * animate three previews the viewer sees for a few seconds. The <video> 404s and
- * the poster image stays on screen, which is what the poster is for.
+ * What deliberately does not: video, at any size. Base64 inflates by a third, so
+ * the hero films would add tens of megabytes to animate three previews a viewer
+ * watches for a few seconds. The <video> 404s and the poster frame stays on
+ * screen, which is what a poster is for.
+ *
+ * Nor anything past the size limits below. MAX_FILE is set just wide enough to
+ * admit the 1.2 MB Webflow runtime that Nailed It Studio needs in order to boot
+ * at all; MAX_TOTAL then stops that same demo's 2600px photography from
+ * doubling the bundle. Its large images stay external and its standalone
+ * preview renders as type and layout without them. That is a preview-only
+ * compromise — the hosted site serves every one of those files normally.
  */
 
 const fs = require('fs');
 const path = require('path');
 
-const MAX_FILE = 900 * 1024; // per asset
+const MAX_FILE = 1.5 * 1024 * 1024; // per asset — sized to fit the Webflow runtime nailed-it-studio needs to boot
 const MAX_TOTAL = 6 * 1024 * 1024; // per demo, so one heavy site can't bloat the bundle
 
 const MIME = {
@@ -132,9 +138,26 @@ function inlineDemo(indexFile) {
     return `<script${keep ? ' ' + keep : ''}>\n${js}\n</script>`;
   });
 
-  // <img src="..."> and the hero poster attribute.
+  // <img> is handled tag-at-a-time because of srcset: a responsive image lists
+  // several candidates and the browser picks one, so inlining src alone leaves it
+  // fetching a file that isn't there. Nailed It Studio ships 21 of these. Drop the
+  // candidate list once src is a data URI and the browser has nowhere else to go.
+  html = html.replace(/<img\b[^>]*>/gi, (tag) => {
+    const m = tag.match(/\bsrc=["']([^"']+)["']/i);
+    if (!m || isExternal(m[1])) return tag;
+    const uri = load.dataUri(m[1], root);
+    if (!uri) return tag;
+    return tag
+      .replace(/\s+(?:srcset|data-srcset|sizes)=["'][^"']*["']/gi, '')
+      .replace(/\bsrc=["'][^"']+["']/i, `src="${uri}"`);
+  });
+
+  // Everything else carrying a src: <source>, <iframe>, inline <script src>.
+  // Video stays on disk — see the note at the top of this file.
   html = html.replace(/\bsrc=["']([^"']+)["']/gi, (whole, url) => {
-    if (isExternal(url) || /\.(mp4|webm|mov|m4v)$/i.test(url)) return whole;
+    if (isExternal(url) || url.startsWith('data:') || /\.(mp4|webm|mov|m4v)$/i.test(url)) {
+      return whole;
+    }
     const uri = load.dataUri(url, root);
     return uri ? `src="${uri}"` : whole;
   });
