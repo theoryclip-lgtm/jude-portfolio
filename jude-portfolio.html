@@ -148,7 +148,10 @@
     padding:clamp(6rem,12vw,8rem) clamp(1.4rem,5vw,4.5rem) 4rem;
     position:relative;overflow:hidden;
   }
-  #hero .ghost{
+  /* Direct child only: the decorative watermark is a child of #hero, while the
+     hero buttons carry .btn.ghost. Without the > this rule outranks .btn.ghost
+     and renders the secondary CTA as a 26rem watermark that cannot be clicked. */
+  #hero > .ghost{
     position:absolute;right:-4%;bottom:-6%;font-family:'Monsieur La Doulaise',cursive;
     font-size:clamp(9rem,26vw,26rem);color:var(--cream);opacity:.05;
     white-space:nowrap;pointer-events:none;line-height:.8;
