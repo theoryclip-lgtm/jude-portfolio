@@ -145,4 +145,7 @@ console.log(`  ${DEMOS.length} demos, ${tagged} pages marked noindex`);
 console.log(`  ${(dirSize(DIST) / 1024 / 1024).toFixed(1)} MB total`);
 if (isCustomDomain) console.log(`  CNAME written for ${new URL(siteUrl).hostname}`);
 if (leftovers) console.log(`  ! unresolved placeholders: ${[...new Set(leftovers)].join(', ')}`);
-console.log('\nUpload the dist/ folder — nothing above it.');
+console.log('\nPreview it:  open dist/index.html');
+console.log('Publish it:  git add -A && git commit -m "..." && git push');
+console.log('             (the Actions workflow rebuilds and uploads dist/ itself —');
+console.log('              there is nothing to drag anywhere)');
